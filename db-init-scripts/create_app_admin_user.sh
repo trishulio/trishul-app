@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+
+psql -d postgres -U postgres -c "CREATE USER $APP_ADMIN_USER WITH PASSWORD '$APP_ADMIN_USER_PASSWORD';"
+psql -d postgres -U postgres -c "GRANT CONNECT ON DATABASE $POSTGRES_DB TO $APP_ADMIN_USER WITH GRANT OPTION;"
+psql -d postgres -U postgres -c "GRANT CREATE ON DATABASE $POSTGRES_DB TO $APP_ADMIN_USER WITH GRANT OPTION;"
+psql -d postgres -U postgres -c "ALTER ROLE $APP_ADMIN_USER WITH CREATEROLE;"
