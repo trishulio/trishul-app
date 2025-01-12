@@ -200,6 +200,10 @@
         </dependency>
         <dependency>
             <groupId>io.trishul</groupId>
+            <artifactId>trishul-iaas-tenant-object-store-aws</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.trishul</groupId>
             <artifactId>trishul-iaas-tenant-object-store-service</artifactId>
         </dependency>
         <dependency>
