@@ -31,7 +31,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   postgresdb:
-    image: postgres:12
+    image: postgres:17-alpine
     container_name: postgresdb
     restart: always
     command: ["postgres", "-c", "log_statement=all"]

@@ -18,6 +18,8 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 @EnableJpaRepositories
 class ApplicationTests {
+  private static final Logger log = LoggerFactory.getLogger(ApplicationTests.class);
+
   @Test
   void contextLoads() {}
 
