@@ -2,9 +2,7 @@ package io.trishul.app;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import javax.sql.DataSource;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
