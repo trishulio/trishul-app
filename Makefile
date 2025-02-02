@@ -2,7 +2,7 @@
 
 TARGET_UPLOAD_DIR:=/var/server/trishul
 SOURCE_UPLOAD_DIR:=./dist
-APP_NAME:=trishul
+APP_NAME:=backend
 VERSION:=1.0.0-SNAPSHOT
 
 install:
@@ -10,6 +10,9 @@ install:
 
 containerize:
 	docker build . -t ${APP_NAME}:${VERSION}
+
+minikube:
+	minikube image build -t ${APP_NAME}:${VERSION} .
 
 pack:
 	mkdir -p ${SOURCE_UPLOAD_DIR}
