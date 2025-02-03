@@ -23,6 +23,8 @@ app:
   networking:
     ingress:
       host: "staging.trishul.io"
+      tls: true
+      certManager: true
     port:
       http: "8080"
       debug: "8000"

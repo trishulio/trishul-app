@@ -3,13 +3,17 @@ kind: Ingress
 metadata:
   name: backend
   annotations:
+    {{- if .Values.app.networking.ingress.certManager }}
     cert-manager.io/cluster-issuer: letsencrypt
+    {{- end }}
 spec:
   ingressClassName: nginx
+  {{- if .Values.app.networking.ingress.tls }}
   tls:
   - hosts:
     - {{ .Values.app.networking.ingress.host }}
     secretName: {{ .Values.app.networking.ingress.host }}-tls
+  {{- end }}
   rules:
   - host: {{ .Values.app.networking.ingress.host }}
     http:

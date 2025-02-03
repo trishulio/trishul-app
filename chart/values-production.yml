@@ -22,6 +22,8 @@ app:
   networking:
     ingress:
       host: "trishul.io"
+      tls: true
+      certManager: true
     port:
       http: "8080"
     httpService:

@@ -22,6 +22,8 @@ app:
   networking:
     ingress:
       host: trishul.local
+      tls: false
+      certManager: false
     port:
       http: "8080"
       debug: "8000"
