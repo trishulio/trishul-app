@@ -20,8 +20,6 @@ services:
     container_name: postgresdb
     restart: always
     command: ["postgres", "-c", "log_statement=all"]
-    volumes:
-      - ./db-init-scripts:/docker-entrypoint-initdb.d
     ports:
       - "54321:${POSTGRES_PORT}"
     environment:
@@ -30,6 +28,9 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       APP_ADMIN_USER: ${APP_ADMIN_USER}
       APP_ADMIN_USER_PASSWORD: ${APP_ADMIN_USER_PASSWORD}
+    volumes:
+      - ./db-init-scripts:/docker-entrypoint-initdb.d
+      - db-data:/var/lib/postgresql/data
 
   pg-admin:
     image: dpage/pgadmin4
@@ -50,3 +51,4 @@ services:
 
 volumes:
   db-admin-data:
+  db-data:
