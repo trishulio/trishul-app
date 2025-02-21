@@ -10,8 +10,6 @@ services:
     ports:
       # Debug port
       - 8000:8000
-    volumes:
-      - ./wait-for-it.sh:/opt/app/wait-for-it.sh
     depends_on:
       - postgresdb
 
