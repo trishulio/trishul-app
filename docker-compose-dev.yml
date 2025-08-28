@@ -1,52 +1,18 @@
 version: "3.3"
 services:
   app:
-    build:
-      context: .
+    image: maven:3.6.3-openjdk-17
     container_name: trishulapp
-    entrypoint: ["/bin/bash", "-c"]
-    # Enabled debugger to listening on all interfaces at port 8000
-    command: ["java -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=*:8000 -jar app.jar"]
+    command: ['mvn', 'spring-boot:run']
+    working_dir: ${PWD}
+    volumes:
+      - ${PWD}:${PWD}
+      - ${HOME}/.m2/:/root/.m2
     ports:
       # Debug port
       - 8000:8000
-    depends_on:
-      - postgresdb
-
-  postgresdb:
-    image: postgres:17-alpine
-    container_name: postgresdb
-    restart: always
-    command: ["postgres", "-c", "log_statement=all"]
-    ports:
-      - "54321:${POSTGRES_PORT}"
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      APP_ADMIN_USER: ${APP_ADMIN_USER}
-      APP_ADMIN_USER_PASSWORD: ${APP_ADMIN_USER_PASSWORD}
-    volumes:
-      - ./db-init-scripts:/docker-entrypoint-initdb.d
-      - db-data:/var/lib/postgresql/data
-
-  pg-admin:
-    image: dpage/pgadmin4
-    restart: always
-    depends_on:
-      - postgresdb
-    volumes:
-      - db-admin-data:/var/lib/pgadmin
-    container_name: pgadmin
-    ports:
-        - "8443:443"
-    logging:
-        driver: none
-    environment:
-        PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-        PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-        PGADMIN_LISTEN_PORT: "443"
-
-volumes:
-  db-admin-data:
-  db-data:
+      # Enabled debugger to listening on all interfaces at port 8000
+      MAVEN_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000"
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_DEVTOOLS_RESTART_ENABLED: true

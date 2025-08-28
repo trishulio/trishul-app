@@ -1,0 +1,106 @@
+services:
+  certbot:
+    image: certbot/certbot:v1.29.0
+    container_name: certbot
+    volumes:
+      - certbot-data:/var/www/certbot/:rw
+      - certificates-data:/etc/letsencrypt/:rw
+
+  nginx:
+    image: nginx:1.28.0-alpine3.21-perl
+    container_name: reverse-proxy
+    restart: unless-stopped
+    environment:
+      DOMAIN: ${DOMAIN}
+      HOST_IP: ${HOST_IP}
+      GLOBAL_MAX_BODY_SIZE: ${GLOBAL_MAX_BODY_SIZE}
+      APP_FRONTEND_PORT: ${APP_FRONTEND_PORT}
+      APP_BACKEND_PORT: ${APP_BACKEND_PORT}
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ../reverse-proxy/static/etc/nginx/templates:/etc/nginx/templates
+      - ../reverse-proxy/static/etc/nginx/snippets:/etc/nginx/snippets
+      - ../reverse-proxy/static/etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem
+      - ../reverse-proxy/static/etc/nginx/ssl/live/localhost:/etc/nginx/ssl/live/localhost
+      - certbot-data:/var/www/certbot/:ro
+      # - certificates-data:/etc/nginx/ssl/:ro # Disabled for local development. Localhost self-signed certs are used.
+
+
+  app_postgres:
+    image: postgres:17-alpine
+    container_name: postgresdb
+    restart: always
+    command: ["postgres", "-c", "log_statement=all"]
+    ports:
+      - "54321:${POSTGRES_PORT}"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      APP_ADMIN_USER: ${APP_ADMIN_USER}
+      APP_ADMIN_USER_PASSWORD: ${APP_ADMIN_USER_PASSWORD}
+    volumes:
+      - ./db-init-scripts:/docker-entrypoint-initdb.d
+      - db-data:/var/lib/postgresql/data
+
+  app_pgadmin:
+    image: dpage/pgadmin4
+    container_name: app_pgadmin
+    restart: always
+    ports:
+        - "8443:443"
+    logging:
+        driver: none
+    environment:
+        PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+        PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+        PGADMIN_LISTEN_PORT: "443"
+    volumes:
+      - db-admin-data:/var/lib/pgadmin
+      - ./pgadmin:/pgadmin4
+    depends_on:
+      - app_postgres
+
+  app_redis:
+    image: redis:8.0
+    container_name: app_redis
+    restart: always
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+  
+  localstack:
+    image: localstack/localstack:3.0.0
+    container_name: app_localstack
+    ports:
+      - "4566:4566"   # LocalStack Edge Port
+      - "4510-4559:4510-4559"  # external services port range
+    environment:
+      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - HOSTNAME_EXTERNAL=localstack
+      - SERVICES=s3,cognito-idp,secretsmanager,iam
+      - AWS_DEFAULT_REGION=ca-central-1
+      - EDGE_PORT=4566
+      - PERSISTENCE=1
+    volumes:
+      - localstack-data:/var/lib/localstack
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+volumes:
+  db-admin-data:
+  db-data:
+  redis-data:
+  certbot-data:
+  certificates-data:
+  localstack-data:
