@@ -1,0 +1,31 @@
+map $http_upgrade $connection_upgrade {
+  default upgrade;
+  '' close;
+}
+
+server {
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+  server_name ${DOMAIN};
+
+  ssl_certificate /etc/nginx/ssl/live/${DOMAIN}/fullchain.pem;
+  ssl_certificate_key /etc/nginx/ssl/live/${DOMAIN}/privkey.pem;
+
+  include snippets/ssl-params.conf;
+
+  # Frontend routes - everything except /api
+  location / {
+    proxy_pass http://${HOST_IP}:${APP_FRONTEND_PORT};
+    include snippets/header-params.conf;
+    include snippets/websocket.conf;
+    include snippets/timeout-params.conf;
+  }
+
+  # Backend API routes
+  location /api {
+    proxy_pass http://${HOST_IP}:${APP_BACKEND_PORT};
+    include snippets/header-params.conf;
+    include snippets/timeout-params.conf;
+    include snippets/streaming-params.conf;
+  }
+}
