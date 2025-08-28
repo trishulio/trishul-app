@@ -2,6 +2,7 @@ services:
   certbot:
     image: certbot/certbot:v1.29.0
     container_name: certbot
+    platform: linux/amd64
     volumes:
       - certbot-data:/var/www/certbot/:rw
       - certificates-data:/etc/letsencrypt/:rw
@@ -51,15 +52,13 @@ services:
     restart: always
     ports:
         - "8443:443"
-    logging:
-        driver: none
     environment:
         PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
         PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
         PGADMIN_LISTEN_PORT: "443"
     volumes:
       - db-admin-data:/var/lib/pgadmin
-      - ./pgadmin:/pgadmin4
+      - ./pgadmin/servers.json:/pgadmin4/servers.json
     depends_on:
       - app_postgres
 
@@ -75,7 +74,7 @@ services:
       - redis-data:/data
   
   localstack:
-    image: localstack/localstack:3.0.0
+    image: localstack/localstack:4.7.0
     container_name: app_localstack
     ports:
       - "4566:4566"   # LocalStack Edge Port
