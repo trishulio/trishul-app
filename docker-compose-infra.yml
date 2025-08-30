@@ -35,7 +35,7 @@ services:
     restart: always
     command: ["postgres", "-c", "log_statement=all"]
     ports:
-      - "54321:${POSTGRES_PORT}"
+      - "5432:${POSTGRES_PORT}"
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
