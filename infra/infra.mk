@@ -6,7 +6,9 @@ infra:
 	$(DOCKER_COMPOSE_INFRA) up -d
 
 infra-restart:
-	$(DOCKER_COMPOSE_INFRA) restart
+	$(DOCKER_COMPOSE_INFRA) down && \
+	$(DOCKER_COMPOSE_INFRA) rm && \
+	$(DOCKER_COMPOSE_INFRA) up -d
 
 infra-reset:
 	$(DOCKER_COMPOSE_INFRA) down -v && \

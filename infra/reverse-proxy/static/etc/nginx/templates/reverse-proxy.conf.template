@@ -6,10 +6,10 @@ map $http_upgrade $connection_upgrade {
 server {
   listen 443 ssl http2;
   listen [::]:443 ssl http2;
-  server_name ${DOMAIN};
+  server_name _;
 
-  ssl_certificate /etc/nginx/ssl/live/${DOMAIN}/fullchain.pem;
-  ssl_certificate_key /etc/nginx/ssl/live/${DOMAIN}/privkey.pem;
+  ssl_certificate /etc/nginx/ssl/live/localhost/fullchain.pem;
+  ssl_certificate_key /etc/nginx/ssl/live/localhost/privkey.pem;
 
   include snippets/ssl-params.conf;
 
