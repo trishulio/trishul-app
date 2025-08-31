@@ -1,11 +1,28 @@
+### Build and Package Files ###
 charts/
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+**/build/
+dist/
+dist-ssr/
+node_modules/
+*.local
 
-### STS ###
+### IDE and Editor Files ###
+# VS Code
+.vscode/
+!.vscode/extensions.json
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# STS
 .apt_generated
 .classpath
 .factorypath
@@ -14,25 +31,67 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
+# NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
-.vscode/
+# Vim
+*.swp
+*.swo
+*~
 
-.env*
-dependency-check-data/
+# Other IDE files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+### Mobile Development ###
+# Android
+.gradle/
+local.properties
+*.apk
+*.ap_
+.cxx/
+.externalNativeBuild/
+
+### Logs and Debug Files ###
+logs/
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+### Environment and Configuration ###
+.env
+dependency-check-data/
+
+### Terraform ###
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfplan.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+### OS Generated Files ###
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
