@@ -1,0 +1,17 @@
+{
+    "project_name": "Trishul App",
+    "description": "Trishul app using trishul library modules",
+    "url": "https://app.trishul.io",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
+    "fqdn": "{{ cookiecutter.url.split('://')[1] }}",
+    "tld": "{{ cookiecutter.fqdn.split('.')[-1] }}",
+    "domain": "{{ cookiecutter.fqdn.split('.')[1] }}",
+    "subdomain": "{{ cookiecutter.fqdn.split('.')[0] }}",
+    "author_name": "Rishab Manocha",
+    "email": "rishab.manocha@outlook.com",
+    "version": "1.0.0",
+
+    "_copy_without_render": [
+        "**/chart/templates/**"
+    ]
+}

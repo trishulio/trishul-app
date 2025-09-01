@@ -1,0 +1,18 @@
+version: "3.3"
+services:
+  app:
+    image: maven:3.6.3-openjdk-17
+    container_name: {{cookiecutter.project_slug}}-backend
+    command: ['mvn', 'spring-boot:run']
+    working_dir: ${PWD}
+    volumes:
+      - ${PWD}:${PWD}
+      - ${HOME}/.m2/:/root/.m2
+    ports:
+      # Debug port
+      - 8000:8000
+    environment:
+      # Enabled debugger to listening on all interfaces at port 8000
+      MAVEN_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000"
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_DEVTOOLS_RESTART_ENABLED: true

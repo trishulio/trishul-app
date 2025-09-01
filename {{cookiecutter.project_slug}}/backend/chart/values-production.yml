@@ -1,0 +1,31 @@
+env: production
+replicaCount: 1
+
+image:
+  repository: 471112695637.dkr.ecr.ca-central-1.amazonaws.com
+  pullPolicy: Always
+
+imagePullSecrets:
+  - name: regcred
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 2G
+  requests:
+    cpu: 250m
+    memory: 1.5G
+
+app:
+  command: {}
+    #entrypoint: <Unused parameter>
+  networking:
+    ingress:
+      host: "{{cookiecutter.subdomain}}.{{cookiecutter.domain}}.{{cookiecutter.tld}}"
+      tls: true
+      certManager: true
+    port:
+      http: "8080"
+    httpService:
+      type: ClusterIP
+      port: "8080"
