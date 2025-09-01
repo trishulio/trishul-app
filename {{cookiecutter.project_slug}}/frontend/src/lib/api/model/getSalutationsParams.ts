@@ -6,9 +6,9 @@
  */
 
 export type GetSalutationsParams = {
-ids?: number[];
-sort?: string[];
-order_asc?: boolean;
-page?: number;
-size?: number;
+  ids?: number[];
+  sort?: string[];
+  order_asc?: boolean;
+  page?: number;
+  size?: number;
 };

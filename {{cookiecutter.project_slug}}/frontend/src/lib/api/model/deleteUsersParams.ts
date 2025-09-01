@@ -6,5 +6,5 @@
  */
 
 export type DeleteUsersParams = {
-ids: number[];
+  ids: number[];
 };

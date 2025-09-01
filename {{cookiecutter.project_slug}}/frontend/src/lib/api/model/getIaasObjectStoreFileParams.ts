@@ -6,5 +6,5 @@
  */
 
 export type GetIaasObjectStoreFileParams = {
-attr?: string[];
+  attr?: string[];
 };

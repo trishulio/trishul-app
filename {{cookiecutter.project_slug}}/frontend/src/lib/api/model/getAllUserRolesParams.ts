@@ -6,12 +6,12 @@
  */
 
 export type GetAllUserRolesParams = {
-ids?: number[];
-exclude_ids?: number[];
-names?: string[];
-sort?: string[];
-order_asc?: boolean;
-page?: number;
-size?: number;
-attr?: string[];
+  ids?: number[];
+  exclude_ids?: number[];
+  names?: string[];
+  sort?: string[];
+  order_asc?: boolean;
+  page?: number;
+  size?: number;
+  attr?: string[];
 };

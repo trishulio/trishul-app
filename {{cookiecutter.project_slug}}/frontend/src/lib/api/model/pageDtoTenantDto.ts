@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import type { TenantDto } from './tenantDto';
+import type { TenantDto } from "./tenantDto";
 
 export interface PageDtoTenantDto {
   content?: TenantDto[];

@@ -4,11 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -25,8 +21,8 @@ import type {
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query';
+  UseQueryResult,
+} from "@tanstack/react-query";
 
 import type {
   AddIaasObjectStoreFileDto,
@@ -60,2450 +56,4590 @@ import type {
   UpdateUserDto,
   UpdateUserRoleDto,
   UserDto,
-  UserRoleDto
-} from './model';
+  UserRoleDto,
+} from "./model";
 
-import { apiClient } from './mutator';
-import type { ErrorType , BodyType } from './mutator';
-
+import { apiClient } from "./mutator";
+import type { ErrorType, BodyType } from "./mutator";
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-
-
 export const getAll = (
-    params?: GetAllParams,
- options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+  params?: GetAllParams,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return apiClient<PageDtoTenantDto>(
-      {url: `/operations/tenants`, method: 'GET',
-        params, signal
-    },
-      options);
-    }
-  
+  return apiClient<PageDtoTenantDto>(
+    { url: `/operations/tenants`, method: "GET", params, signal },
+    options,
+  );
+};
 
-export const getGetAllQueryKey = (params?: GetAllParams,) => {
-    return [`/operations/tenants`, ...(params ? [params]: [])] as const;
-    }
+export const getGetAllQueryKey = (params?: GetAllParams) => {
+  return [`/operations/tenants`, ...(params ? [params] : [])] as const;
+};
 
-    
-export const getGetAllInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getAll>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(params?: GetAllParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetAllInfiniteQueryOptions = <
+  TData = InfiniteData<Awaited<ReturnType<typeof getAll>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetAllQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAllQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAll>>> = ({
+    signal,
+  }) => getAll(params, requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof getAll>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAll>>> = ({ signal }) => getAll(params, requestOptions, signal);
+export type GetAllInfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAll>>
+>;
+export type GetAllInfiniteQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAllInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getAll>>>
-export type GetAllInfiniteQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetAllInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getAll>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: undefined |  GetAllParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>> & Pick<
+export function useGetAllInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getAll>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: undefined | GetAllParams,
+  options: {
+    query: Partial<
+      UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAll>>,
           TError,
           Awaited<ReturnType<typeof getAll>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getAll>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getAll>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAll>>,
           TError,
           Awaited<ReturnType<typeof getAll>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getAll>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getAll>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetAllInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getAll>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetAllInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getAll>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAllInfiniteQueryOptions(params, options);
 
-  const queryOptions = getGetAllInfiniteQueryOptions(params,options)
+  const query = useInfiniteQuery(
+    queryOptions,
+    queryClient,
+  ) as UseInfiniteQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
-  const query = useInfiniteQuery(queryOptions , queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
 
-
-
-export const getGetAllQueryOptions = <TData = Awaited<ReturnType<typeof getAll>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(params?: GetAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetAllQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAll>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetAllQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAllQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAll>>> = ({
+    signal,
+  }) => getAll(params, requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAll>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAll>>> = ({ signal }) => getAll(params, requestOptions, signal);
+export type GetAllQueryResult = NonNullable<Awaited<ReturnType<typeof getAll>>>;
+export type GetAllQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAllQueryResult = NonNullable<Awaited<ReturnType<typeof getAll>>>
-export type GetAllQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetAll<TData = Awaited<ReturnType<typeof getAll>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: undefined |  GetAllParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>> & Pick<
+export function useGetAll<
+  TData = Awaited<ReturnType<typeof getAll>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: undefined | GetAllParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAll>>,
           TError,
           Awaited<ReturnType<typeof getAll>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAll<TData = Awaited<ReturnType<typeof getAll>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAll<
+  TData = Awaited<ReturnType<typeof getAll>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAll>>,
           TError,
           Awaited<ReturnType<typeof getAll>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAll<TData = Awaited<ReturnType<typeof getAll>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAll<
+  TData = Awaited<ReturnType<typeof getAll>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetAll<TData = Awaited<ReturnType<typeof getAll>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetAll<
+  TData = Awaited<ReturnType<typeof getAll>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAll>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAllQueryOptions(params, options);
 
-  const queryOptions = getGetAllQueryOptions(params,options)
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
-
-
-
 
 export const updateTenant = (
-    updateTenantDto: BodyType<UpdateTenantDto[]>,
- options?: SecondParameter<typeof apiClient>,) => {
-      
-      
-      return apiClient<TenantDto[]>(
-      {url: `/operations/tenants`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
-      data: updateTenantDto
+  updateTenantDto: BodyType<UpdateTenantDto[]>,
+  options?: SecondParameter<typeof apiClient>,
+) => {
+  return apiClient<TenantDto[]>(
+    {
+      url: `/operations/tenants`,
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      data: updateTenantDto,
     },
-      options);
-    }
-  
+    options,
+  );
+};
 
+export const getUpdateTenantMutationOptions = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateTenant>>,
+    TError,
+    { data: BodyType<UpdateTenantDto[]> },
+    TContext
+  >;
+  request?: SecondParameter<typeof apiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateTenant>>,
+  TError,
+  { data: BodyType<UpdateTenantDto[]> },
+  TContext
+> => {
+  const mutationKey = ["updateTenant"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getUpdateTenantMutationOptions = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateTenant>>, TError,{data: BodyType<UpdateTenantDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateTenant>>, TError,{data: BodyType<UpdateTenantDto[]>}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateTenant>>,
+    { data: BodyType<UpdateTenantDto[]> }
+  > = (props) => {
+    const { data } = props ?? {};
 
-const mutationKey = ['updateTenant'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return updateTenant(data, requestOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type UpdateTenantMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateTenant>>
+>;
+export type UpdateTenantMutationBody = BodyType<UpdateTenantDto[]>;
+export type UpdateTenantMutationError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateTenant>>, {data: BodyType<UpdateTenantDto[]>}> = (props) => {
-          const {data} = props ?? {};
+export const useUpdateTenant = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateTenant>>,
+      TError,
+      { data: BodyType<UpdateTenantDto[]> },
+      TContext
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateTenant>>,
+  TError,
+  { data: BodyType<UpdateTenantDto[]> },
+  TContext
+> => {
+  const mutationOptions = getUpdateTenantMutationOptions(options);
 
-          return  updateTenant(data,requestOptions)
-        }
+  return useMutation(mutationOptions, queryClient);
+};
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type UpdateTenantMutationResult = NonNullable<Awaited<ReturnType<typeof updateTenant>>>
-    export type UpdateTenantMutationBody = BodyType<UpdateTenantDto[]>
-    export type UpdateTenantMutationError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-    export const useUpdateTenant = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateTenant>>, TError,{data: BodyType<UpdateTenantDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof updateTenant>>,
-        TError,
-        {data: BodyType<UpdateTenantDto[]>},
-        TContext
-      > => {
-
-      const mutationOptions = getUpdateTenantMutationOptions(options);
-
-      return useMutation(mutationOptions , queryClient);
-    }
-    
 export const addTenant = (
-    addTenantDto: BodyType<AddTenantDto[]>,
- options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+  addTenantDto: BodyType<AddTenantDto[]>,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return apiClient<TenantDto[]>(
-      {url: `/operations/tenants`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: addTenantDto, signal
+  return apiClient<TenantDto[]>(
+    {
+      url: `/operations/tenants`,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      data: addTenantDto,
+      signal,
     },
-      options);
-    }
-  
+    options,
+  );
+};
 
+export const getAddTenantMutationOptions = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof addTenant>>,
+    TError,
+    { data: BodyType<AddTenantDto[]> },
+    TContext
+  >;
+  request?: SecondParameter<typeof apiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof addTenant>>,
+  TError,
+  { data: BodyType<AddTenantDto[]> },
+  TContext
+> => {
+  const mutationKey = ["addTenant"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getAddTenantMutationOptions = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addTenant>>, TError,{data: BodyType<AddTenantDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
-): UseMutationOptions<Awaited<ReturnType<typeof addTenant>>, TError,{data: BodyType<AddTenantDto[]>}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof addTenant>>,
+    { data: BodyType<AddTenantDto[]> }
+  > = (props) => {
+    const { data } = props ?? {};
 
-const mutationKey = ['addTenant'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return addTenant(data, requestOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type AddTenantMutationResult = NonNullable<
+  Awaited<ReturnType<typeof addTenant>>
+>;
+export type AddTenantMutationBody = BodyType<AddTenantDto[]>;
+export type AddTenantMutationError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof addTenant>>, {data: BodyType<AddTenantDto[]>}> = (props) => {
-          const {data} = props ?? {};
+export const useAddTenant = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof addTenant>>,
+      TError,
+      { data: BodyType<AddTenantDto[]> },
+      TContext
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof addTenant>>,
+  TError,
+  { data: BodyType<AddTenantDto[]> },
+  TContext
+> => {
+  const mutationOptions = getAddTenantMutationOptions(options);
 
-          return  addTenant(data,requestOptions)
-        }
+  return useMutation(mutationOptions, queryClient);
+};
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type AddTenantMutationResult = NonNullable<Awaited<ReturnType<typeof addTenant>>>
-    export type AddTenantMutationBody = BodyType<AddTenantDto[]>
-    export type AddTenantMutationError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-    export const useAddTenant = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addTenant>>, TError,{data: BodyType<AddTenantDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof addTenant>>,
-        TError,
-        {data: BodyType<AddTenantDto[]>},
-        TContext
-      > => {
-
-      const mutationOptions = getAddTenantMutationOptions(options);
-
-      return useMutation(mutationOptions , queryClient);
-    }
-    
 export const deleteTenants = (
-    params: DeleteTenantsParams,
- options?: SecondParameter<typeof apiClient>,) => {
-      
-      
-      return apiClient<number>(
-      {url: `/operations/tenants`, method: 'DELETE',
-        params
-    },
-      options);
-    }
-  
+  params: DeleteTenantsParams,
+  options?: SecondParameter<typeof apiClient>,
+) => {
+  return apiClient<number>(
+    { url: `/operations/tenants`, method: "DELETE", params },
+    options,
+  );
+};
 
+export const getDeleteTenantsMutationOptions = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteTenants>>,
+    TError,
+    { params: DeleteTenantsParams },
+    TContext
+  >;
+  request?: SecondParameter<typeof apiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteTenants>>,
+  TError,
+  { params: DeleteTenantsParams },
+  TContext
+> => {
+  const mutationKey = ["deleteTenants"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getDeleteTenantsMutationOptions = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteTenants>>, TError,{params: DeleteTenantsParams}, TContext>, request?: SecondParameter<typeof apiClient>}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteTenants>>, TError,{params: DeleteTenantsParams}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteTenants>>,
+    { params: DeleteTenantsParams }
+  > = (props) => {
+    const { params } = props ?? {};
 
-const mutationKey = ['deleteTenants'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return deleteTenants(params, requestOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type DeleteTenantsMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteTenants>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteTenants>>, {params: DeleteTenantsParams}> = (props) => {
-          const {params} = props ?? {};
+export type DeleteTenantsMutationError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-          return  deleteTenants(params,requestOptions)
-        }
+export const useDeleteTenants = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof deleteTenants>>,
+      TError,
+      { params: DeleteTenantsParams },
+      TContext
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof deleteTenants>>,
+  TError,
+  { params: DeleteTenantsParams },
+  TContext
+> => {
+  const mutationOptions = getDeleteTenantsMutationOptions(options);
 
-        
+  return useMutation(mutationOptions, queryClient);
+};
 
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeleteTenantsMutationResult = NonNullable<Awaited<ReturnType<typeof deleteTenants>>>
-    
-    export type DeleteTenantsMutationError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-    export const useDeleteTenants = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteTenants>>, TError,{params: DeleteTenantsParams}, TContext>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteTenants>>,
-        TError,
-        {params: DeleteTenantsParams},
-        TContext
-      > => {
-
-      const mutationOptions = getDeleteTenantsMutationOptions(options);
-
-      return useMutation(mutationOptions , queryClient);
-    }
-    
 export const patchTenant = (
-    updateTenantDto: BodyType<UpdateTenantDto[]>,
- options?: SecondParameter<typeof apiClient>,) => {
-      
-      
-      return apiClient<TenantDto[]>(
-      {url: `/operations/tenants`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: updateTenantDto
+  updateTenantDto: BodyType<UpdateTenantDto[]>,
+  options?: SecondParameter<typeof apiClient>,
+) => {
+  return apiClient<TenantDto[]>(
+    {
+      url: `/operations/tenants`,
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      data: updateTenantDto,
     },
-      options);
-    }
-  
+    options,
+  );
+};
 
+export const getPatchTenantMutationOptions = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof patchTenant>>,
+    TError,
+    { data: BodyType<UpdateTenantDto[]> },
+    TContext
+  >;
+  request?: SecondParameter<typeof apiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof patchTenant>>,
+  TError,
+  { data: BodyType<UpdateTenantDto[]> },
+  TContext
+> => {
+  const mutationKey = ["patchTenant"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getPatchTenantMutationOptions = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchTenant>>, TError,{data: BodyType<UpdateTenantDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
-): UseMutationOptions<Awaited<ReturnType<typeof patchTenant>>, TError,{data: BodyType<UpdateTenantDto[]>}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof patchTenant>>,
+    { data: BodyType<UpdateTenantDto[]> }
+  > = (props) => {
+    const { data } = props ?? {};
 
-const mutationKey = ['patchTenant'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return patchTenant(data, requestOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type PatchTenantMutationResult = NonNullable<
+  Awaited<ReturnType<typeof patchTenant>>
+>;
+export type PatchTenantMutationBody = BodyType<UpdateTenantDto[]>;
+export type PatchTenantMutationError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof patchTenant>>, {data: BodyType<UpdateTenantDto[]>}> = (props) => {
-          const {data} = props ?? {};
+export const usePatchTenant = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof patchTenant>>,
+      TError,
+      { data: BodyType<UpdateTenantDto[]> },
+      TContext
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof patchTenant>>,
+  TError,
+  { data: BodyType<UpdateTenantDto[]> },
+  TContext
+> => {
+  const mutationOptions = getPatchTenantMutationOptions(options);
 
-          return  patchTenant(data,requestOptions)
-        }
+  return useMutation(mutationOptions, queryClient);
+};
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PatchTenantMutationResult = NonNullable<Awaited<ReturnType<typeof patchTenant>>>
-    export type PatchTenantMutationBody = BodyType<UpdateTenantDto[]>
-    export type PatchTenantMutationError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-    export const usePatchTenant = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchTenant>>, TError,{data: BodyType<UpdateTenantDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof patchTenant>>,
-        TError,
-        {data: BodyType<UpdateTenantDto[]>},
-        TContext
-      > => {
-
-      const mutationOptions = getPatchTenantMutationOptions(options);
-
-      return useMutation(mutationOptions , queryClient);
-    }
-    
 export const getAll1 = (
-    params: GetAll1Params,
- options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+  params: GetAll1Params,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return apiClient<IaasObjectStoreFileDto[]>(
-      {url: `/api/v1/vfs/files`, method: 'GET',
-        params, signal
-    },
-      options);
-    }
-  
+  return apiClient<IaasObjectStoreFileDto[]>(
+    { url: `/api/v1/vfs/files`, method: "GET", params, signal },
+    options,
+  );
+};
 
-export const getGetAll1QueryKey = (params?: GetAll1Params,) => {
-    return [`/api/v1/vfs/files`, ...(params ? [params]: [])] as const;
-    }
+export const getGetAll1QueryKey = (params?: GetAll1Params) => {
+  return [`/api/v1/vfs/files`, ...(params ? [params] : [])] as const;
+};
 
-    
-export const getGetAll1InfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getAll1>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(params: GetAll1Params, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetAll1InfiniteQueryOptions = <
+  TData = InfiniteData<Awaited<ReturnType<typeof getAll1>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: GetAll1Params,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getAll1>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetAll1QueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAll1QueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAll1>>> = ({
+    signal,
+  }) => getAll1(params, requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof getAll1>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAll1>>> = ({ signal }) => getAll1(params, requestOptions, signal);
+export type GetAll1InfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAll1>>
+>;
+export type GetAll1InfiniteQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAll1InfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getAll1>>>
-export type GetAll1InfiniteQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetAll1Infinite<TData = InfiniteData<Awaited<ReturnType<typeof getAll1>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: GetAll1Params, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>> & Pick<
+export function useGetAll1Infinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getAll1>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: GetAll1Params,
+  options: {
+    query: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getAll1>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAll1>>,
           TError,
           Awaited<ReturnType<typeof getAll1>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAll1Infinite<TData = InfiniteData<Awaited<ReturnType<typeof getAll1>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: GetAll1Params, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAll1Infinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getAll1>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: GetAll1Params,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getAll1>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAll1>>,
           TError,
           Awaited<ReturnType<typeof getAll1>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAll1Infinite<TData = InfiniteData<Awaited<ReturnType<typeof getAll1>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: GetAll1Params, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAll1Infinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getAll1>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: GetAll1Params,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getAll1>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetAll1Infinite<TData = InfiniteData<Awaited<ReturnType<typeof getAll1>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: GetAll1Params, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetAll1Infinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getAll1>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: GetAll1Params,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getAll1>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAll1InfiniteQueryOptions(params, options);
 
-  const queryOptions = getGetAll1InfiniteQueryOptions(params,options)
+  const query = useInfiniteQuery(
+    queryOptions,
+    queryClient,
+  ) as UseInfiniteQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
-  const query = useInfiniteQuery(queryOptions , queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
 
-
-
-export const getGetAll1QueryOptions = <TData = Awaited<ReturnType<typeof getAll1>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(params: GetAll1Params, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetAll1QueryOptions = <
+  TData = Awaited<ReturnType<typeof getAll1>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: GetAll1Params,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetAll1QueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAll1QueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAll1>>> = ({
+    signal,
+  }) => getAll1(params, requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAll1>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAll1>>> = ({ signal }) => getAll1(params, requestOptions, signal);
+export type GetAll1QueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAll1>>
+>;
+export type GetAll1QueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAll1QueryResult = NonNullable<Awaited<ReturnType<typeof getAll1>>>
-export type GetAll1QueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetAll1<TData = Awaited<ReturnType<typeof getAll1>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: GetAll1Params, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>> & Pick<
+export function useGetAll1<
+  TData = Awaited<ReturnType<typeof getAll1>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: GetAll1Params,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAll1>>,
           TError,
           Awaited<ReturnType<typeof getAll1>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAll1<TData = Awaited<ReturnType<typeof getAll1>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: GetAll1Params, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAll1<
+  TData = Awaited<ReturnType<typeof getAll1>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: GetAll1Params,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAll1>>,
           TError,
           Awaited<ReturnType<typeof getAll1>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAll1<TData = Awaited<ReturnType<typeof getAll1>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: GetAll1Params, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAll1<
+  TData = Awaited<ReturnType<typeof getAll1>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: GetAll1Params,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetAll1<TData = Awaited<ReturnType<typeof getAll1>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: GetAll1Params, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetAll1<
+  TData = Awaited<ReturnType<typeof getAll1>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: GetAll1Params,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAll1>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAll1QueryOptions(params, options);
 
-  const queryOptions = getGetAll1QueryOptions(params,options)
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
-
-
-
 
 export const updateIaasObjectStoreFile = (
-    updateIaasObjectStoreFileDto: BodyType<UpdateIaasObjectStoreFileDto[]>,
- options?: SecondParameter<typeof apiClient>,) => {
-      
-      
-      return apiClient<IaasObjectStoreFileDto[]>(
-      {url: `/api/v1/vfs/files`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
-      data: updateIaasObjectStoreFileDto
+  updateIaasObjectStoreFileDto: BodyType<UpdateIaasObjectStoreFileDto[]>,
+  options?: SecondParameter<typeof apiClient>,
+) => {
+  return apiClient<IaasObjectStoreFileDto[]>(
+    {
+      url: `/api/v1/vfs/files`,
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      data: updateIaasObjectStoreFileDto,
     },
-      options);
-    }
-  
+    options,
+  );
+};
 
+export const getUpdateIaasObjectStoreFileMutationOptions = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateIaasObjectStoreFile>>,
+    TError,
+    { data: BodyType<UpdateIaasObjectStoreFileDto[]> },
+    TContext
+  >;
+  request?: SecondParameter<typeof apiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateIaasObjectStoreFile>>,
+  TError,
+  { data: BodyType<UpdateIaasObjectStoreFileDto[]> },
+  TContext
+> => {
+  const mutationKey = ["updateIaasObjectStoreFile"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getUpdateIaasObjectStoreFileMutationOptions = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateIaasObjectStoreFile>>, TError,{data: BodyType<UpdateIaasObjectStoreFileDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateIaasObjectStoreFile>>, TError,{data: BodyType<UpdateIaasObjectStoreFileDto[]>}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateIaasObjectStoreFile>>,
+    { data: BodyType<UpdateIaasObjectStoreFileDto[]> }
+  > = (props) => {
+    const { data } = props ?? {};
 
-const mutationKey = ['updateIaasObjectStoreFile'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return updateIaasObjectStoreFile(data, requestOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type UpdateIaasObjectStoreFileMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateIaasObjectStoreFile>>
+>;
+export type UpdateIaasObjectStoreFileMutationBody = BodyType<
+  UpdateIaasObjectStoreFileDto[]
+>;
+export type UpdateIaasObjectStoreFileMutationError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateIaasObjectStoreFile>>, {data: BodyType<UpdateIaasObjectStoreFileDto[]>}> = (props) => {
-          const {data} = props ?? {};
+export const useUpdateIaasObjectStoreFile = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateIaasObjectStoreFile>>,
+      TError,
+      { data: BodyType<UpdateIaasObjectStoreFileDto[]> },
+      TContext
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateIaasObjectStoreFile>>,
+  TError,
+  { data: BodyType<UpdateIaasObjectStoreFileDto[]> },
+  TContext
+> => {
+  const mutationOptions = getUpdateIaasObjectStoreFileMutationOptions(options);
 
-          return  updateIaasObjectStoreFile(data,requestOptions)
-        }
+  return useMutation(mutationOptions, queryClient);
+};
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type UpdateIaasObjectStoreFileMutationResult = NonNullable<Awaited<ReturnType<typeof updateIaasObjectStoreFile>>>
-    export type UpdateIaasObjectStoreFileMutationBody = BodyType<UpdateIaasObjectStoreFileDto[]>
-    export type UpdateIaasObjectStoreFileMutationError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-    export const useUpdateIaasObjectStoreFile = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateIaasObjectStoreFile>>, TError,{data: BodyType<UpdateIaasObjectStoreFileDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof updateIaasObjectStoreFile>>,
-        TError,
-        {data: BodyType<UpdateIaasObjectStoreFileDto[]>},
-        TContext
-      > => {
-
-      const mutationOptions = getUpdateIaasObjectStoreFileMutationOptions(options);
-
-      return useMutation(mutationOptions , queryClient);
-    }
-    
 export const addIaasObjectStoreFile = (
-    addIaasObjectStoreFileDto: BodyType<AddIaasObjectStoreFileDto[]>,
- options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+  addIaasObjectStoreFileDto: BodyType<AddIaasObjectStoreFileDto[]>,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return apiClient<IaasObjectStoreFileDto[]>(
-      {url: `/api/v1/vfs/files`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: addIaasObjectStoreFileDto, signal
+  return apiClient<IaasObjectStoreFileDto[]>(
+    {
+      url: `/api/v1/vfs/files`,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      data: addIaasObjectStoreFileDto,
+      signal,
     },
-      options);
-    }
-  
+    options,
+  );
+};
 
+export const getAddIaasObjectStoreFileMutationOptions = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof addIaasObjectStoreFile>>,
+    TError,
+    { data: BodyType<AddIaasObjectStoreFileDto[]> },
+    TContext
+  >;
+  request?: SecondParameter<typeof apiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof addIaasObjectStoreFile>>,
+  TError,
+  { data: BodyType<AddIaasObjectStoreFileDto[]> },
+  TContext
+> => {
+  const mutationKey = ["addIaasObjectStoreFile"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getAddIaasObjectStoreFileMutationOptions = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addIaasObjectStoreFile>>, TError,{data: BodyType<AddIaasObjectStoreFileDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
-): UseMutationOptions<Awaited<ReturnType<typeof addIaasObjectStoreFile>>, TError,{data: BodyType<AddIaasObjectStoreFileDto[]>}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof addIaasObjectStoreFile>>,
+    { data: BodyType<AddIaasObjectStoreFileDto[]> }
+  > = (props) => {
+    const { data } = props ?? {};
 
-const mutationKey = ['addIaasObjectStoreFile'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return addIaasObjectStoreFile(data, requestOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type AddIaasObjectStoreFileMutationResult = NonNullable<
+  Awaited<ReturnType<typeof addIaasObjectStoreFile>>
+>;
+export type AddIaasObjectStoreFileMutationBody = BodyType<
+  AddIaasObjectStoreFileDto[]
+>;
+export type AddIaasObjectStoreFileMutationError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof addIaasObjectStoreFile>>, {data: BodyType<AddIaasObjectStoreFileDto[]>}> = (props) => {
-          const {data} = props ?? {};
+export const useAddIaasObjectStoreFile = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof addIaasObjectStoreFile>>,
+      TError,
+      { data: BodyType<AddIaasObjectStoreFileDto[]> },
+      TContext
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof addIaasObjectStoreFile>>,
+  TError,
+  { data: BodyType<AddIaasObjectStoreFileDto[]> },
+  TContext
+> => {
+  const mutationOptions = getAddIaasObjectStoreFileMutationOptions(options);
 
-          return  addIaasObjectStoreFile(data,requestOptions)
-        }
+  return useMutation(mutationOptions, queryClient);
+};
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type AddIaasObjectStoreFileMutationResult = NonNullable<Awaited<ReturnType<typeof addIaasObjectStoreFile>>>
-    export type AddIaasObjectStoreFileMutationBody = BodyType<AddIaasObjectStoreFileDto[]>
-    export type AddIaasObjectStoreFileMutationError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-    export const useAddIaasObjectStoreFile = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addIaasObjectStoreFile>>, TError,{data: BodyType<AddIaasObjectStoreFileDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof addIaasObjectStoreFile>>,
-        TError,
-        {data: BodyType<AddIaasObjectStoreFileDto[]>},
-        TContext
-      > => {
-
-      const mutationOptions = getAddIaasObjectStoreFileMutationOptions(options);
-
-      return useMutation(mutationOptions , queryClient);
-    }
-    
 export const deleteIaasObjectStoreFiles = (
-    params: DeleteIaasObjectStoreFilesParams,
- options?: SecondParameter<typeof apiClient>,) => {
-      
-      
-      return apiClient<number>(
-      {url: `/api/v1/vfs/files`, method: 'DELETE',
-        params
-    },
-      options);
-    }
-  
+  params: DeleteIaasObjectStoreFilesParams,
+  options?: SecondParameter<typeof apiClient>,
+) => {
+  return apiClient<number>(
+    { url: `/api/v1/vfs/files`, method: "DELETE", params },
+    options,
+  );
+};
 
+export const getDeleteIaasObjectStoreFilesMutationOptions = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteIaasObjectStoreFiles>>,
+    TError,
+    { params: DeleteIaasObjectStoreFilesParams },
+    TContext
+  >;
+  request?: SecondParameter<typeof apiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteIaasObjectStoreFiles>>,
+  TError,
+  { params: DeleteIaasObjectStoreFilesParams },
+  TContext
+> => {
+  const mutationKey = ["deleteIaasObjectStoreFiles"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getDeleteIaasObjectStoreFilesMutationOptions = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteIaasObjectStoreFiles>>, TError,{params: DeleteIaasObjectStoreFilesParams}, TContext>, request?: SecondParameter<typeof apiClient>}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteIaasObjectStoreFiles>>, TError,{params: DeleteIaasObjectStoreFilesParams}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteIaasObjectStoreFiles>>,
+    { params: DeleteIaasObjectStoreFilesParams }
+  > = (props) => {
+    const { params } = props ?? {};
 
-const mutationKey = ['deleteIaasObjectStoreFiles'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return deleteIaasObjectStoreFiles(params, requestOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type DeleteIaasObjectStoreFilesMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteIaasObjectStoreFiles>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteIaasObjectStoreFiles>>, {params: DeleteIaasObjectStoreFilesParams}> = (props) => {
-          const {params} = props ?? {};
+export type DeleteIaasObjectStoreFilesMutationError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-          return  deleteIaasObjectStoreFiles(params,requestOptions)
-        }
+export const useDeleteIaasObjectStoreFiles = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof deleteIaasObjectStoreFiles>>,
+      TError,
+      { params: DeleteIaasObjectStoreFilesParams },
+      TContext
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof deleteIaasObjectStoreFiles>>,
+  TError,
+  { params: DeleteIaasObjectStoreFilesParams },
+  TContext
+> => {
+  const mutationOptions = getDeleteIaasObjectStoreFilesMutationOptions(options);
 
-        
+  return useMutation(mutationOptions, queryClient);
+};
 
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeleteIaasObjectStoreFilesMutationResult = NonNullable<Awaited<ReturnType<typeof deleteIaasObjectStoreFiles>>>
-    
-    export type DeleteIaasObjectStoreFilesMutationError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-    export const useDeleteIaasObjectStoreFiles = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteIaasObjectStoreFiles>>, TError,{params: DeleteIaasObjectStoreFilesParams}, TContext>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteIaasObjectStoreFiles>>,
-        TError,
-        {params: DeleteIaasObjectStoreFilesParams},
-        TContext
-      > => {
-
-      const mutationOptions = getDeleteIaasObjectStoreFilesMutationOptions(options);
-
-      return useMutation(mutationOptions , queryClient);
-    }
-    
 export const patchIaasObjectStoreFile = (
-    updateIaasObjectStoreFileDto: BodyType<UpdateIaasObjectStoreFileDto[]>,
- options?: SecondParameter<typeof apiClient>,) => {
-      
-      
-      return apiClient<IaasObjectStoreFileDto[]>(
-      {url: `/api/v1/vfs/files`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: updateIaasObjectStoreFileDto
+  updateIaasObjectStoreFileDto: BodyType<UpdateIaasObjectStoreFileDto[]>,
+  options?: SecondParameter<typeof apiClient>,
+) => {
+  return apiClient<IaasObjectStoreFileDto[]>(
+    {
+      url: `/api/v1/vfs/files`,
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      data: updateIaasObjectStoreFileDto,
     },
-      options);
-    }
-  
+    options,
+  );
+};
 
+export const getPatchIaasObjectStoreFileMutationOptions = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof patchIaasObjectStoreFile>>,
+    TError,
+    { data: BodyType<UpdateIaasObjectStoreFileDto[]> },
+    TContext
+  >;
+  request?: SecondParameter<typeof apiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof patchIaasObjectStoreFile>>,
+  TError,
+  { data: BodyType<UpdateIaasObjectStoreFileDto[]> },
+  TContext
+> => {
+  const mutationKey = ["patchIaasObjectStoreFile"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getPatchIaasObjectStoreFileMutationOptions = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchIaasObjectStoreFile>>, TError,{data: BodyType<UpdateIaasObjectStoreFileDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
-): UseMutationOptions<Awaited<ReturnType<typeof patchIaasObjectStoreFile>>, TError,{data: BodyType<UpdateIaasObjectStoreFileDto[]>}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof patchIaasObjectStoreFile>>,
+    { data: BodyType<UpdateIaasObjectStoreFileDto[]> }
+  > = (props) => {
+    const { data } = props ?? {};
 
-const mutationKey = ['patchIaasObjectStoreFile'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return patchIaasObjectStoreFile(data, requestOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type PatchIaasObjectStoreFileMutationResult = NonNullable<
+  Awaited<ReturnType<typeof patchIaasObjectStoreFile>>
+>;
+export type PatchIaasObjectStoreFileMutationBody = BodyType<
+  UpdateIaasObjectStoreFileDto[]
+>;
+export type PatchIaasObjectStoreFileMutationError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof patchIaasObjectStoreFile>>, {data: BodyType<UpdateIaasObjectStoreFileDto[]>}> = (props) => {
-          const {data} = props ?? {};
+export const usePatchIaasObjectStoreFile = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof patchIaasObjectStoreFile>>,
+      TError,
+      { data: BodyType<UpdateIaasObjectStoreFileDto[]> },
+      TContext
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof patchIaasObjectStoreFile>>,
+  TError,
+  { data: BodyType<UpdateIaasObjectStoreFileDto[]> },
+  TContext
+> => {
+  const mutationOptions = getPatchIaasObjectStoreFileMutationOptions(options);
 
-          return  patchIaasObjectStoreFile(data,requestOptions)
-        }
+  return useMutation(mutationOptions, queryClient);
+};
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PatchIaasObjectStoreFileMutationResult = NonNullable<Awaited<ReturnType<typeof patchIaasObjectStoreFile>>>
-    export type PatchIaasObjectStoreFileMutationBody = BodyType<UpdateIaasObjectStoreFileDto[]>
-    export type PatchIaasObjectStoreFileMutationError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-    export const usePatchIaasObjectStoreFile = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchIaasObjectStoreFile>>, TError,{data: BodyType<UpdateIaasObjectStoreFileDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof patchIaasObjectStoreFile>>,
-        TError,
-        {data: BodyType<UpdateIaasObjectStoreFileDto[]>},
-        TContext
-      > => {
-
-      const mutationOptions = getPatchIaasObjectStoreFileMutationOptions(options);
-
-      return useMutation(mutationOptions , queryClient);
-    }
-    
 export const getAllUsers = (
-    params?: GetAllUsersParams,
- options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+  params?: GetAllUsersParams,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return apiClient<PageDtoUserDto>(
-      {url: `/api/v1/users`, method: 'GET',
-        params, signal
-    },
-      options);
-    }
-  
+  return apiClient<PageDtoUserDto>(
+    { url: `/api/v1/users`, method: "GET", params, signal },
+    options,
+  );
+};
 
-export const getGetAllUsersQueryKey = (params?: GetAllUsersParams,) => {
-    return [`/api/v1/users`, ...(params ? [params]: [])] as const;
-    }
+export const getGetAllUsersQueryKey = (params?: GetAllUsersParams) => {
+  return [`/api/v1/users`, ...(params ? [params] : [])] as const;
+};
 
-    
-export const getGetAllUsersInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getAllUsers>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(params?: GetAllUsersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetAllUsersInfiniteQueryOptions = <
+  TData = InfiniteData<Awaited<ReturnType<typeof getAllUsers>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllUsersParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getAllUsers>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetAllUsersQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAllUsersQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllUsers>>> = ({
+    signal,
+  }) => getAllUsers(params, requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof getAllUsers>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllUsers>>> = ({ signal }) => getAllUsers(params, requestOptions, signal);
+export type GetAllUsersInfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAllUsers>>
+>;
+export type GetAllUsersInfiniteQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAllUsersInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getAllUsers>>>
-export type GetAllUsersInfiniteQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetAllUsersInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getAllUsers>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: undefined |  GetAllUsersParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>> & Pick<
+export function useGetAllUsersInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getAllUsers>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: undefined | GetAllUsersParams,
+  options: {
+    query: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getAllUsers>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllUsers>>,
           TError,
           Awaited<ReturnType<typeof getAllUsers>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllUsersInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getAllUsers>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllUsersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllUsersInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getAllUsers>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllUsersParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getAllUsers>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllUsers>>,
           TError,
           Awaited<ReturnType<typeof getAllUsers>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllUsersInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getAllUsers>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllUsersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllUsersInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getAllUsers>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllUsersParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getAllUsers>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetAllUsersInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getAllUsers>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllUsersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetAllUsersInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getAllUsers>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllUsersParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getAllUsers>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAllUsersInfiniteQueryOptions(params, options);
 
-  const queryOptions = getGetAllUsersInfiniteQueryOptions(params,options)
+  const query = useInfiniteQuery(
+    queryOptions,
+    queryClient,
+  ) as UseInfiniteQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
-  const query = useInfiniteQuery(queryOptions , queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
 
-
-
-export const getGetAllUsersQueryOptions = <TData = Awaited<ReturnType<typeof getAllUsers>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(params?: GetAllUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetAllUsersQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAllUsers>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllUsersParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetAllUsersQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAllUsersQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllUsers>>> = ({
+    signal,
+  }) => getAllUsers(params, requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAllUsers>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllUsers>>> = ({ signal }) => getAllUsers(params, requestOptions, signal);
+export type GetAllUsersQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAllUsers>>
+>;
+export type GetAllUsersQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAllUsersQueryResult = NonNullable<Awaited<ReturnType<typeof getAllUsers>>>
-export type GetAllUsersQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetAllUsers<TData = Awaited<ReturnType<typeof getAllUsers>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: undefined |  GetAllUsersParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>> & Pick<
+export function useGetAllUsers<
+  TData = Awaited<ReturnType<typeof getAllUsers>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: undefined | GetAllUsersParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllUsers>>,
           TError,
           Awaited<ReturnType<typeof getAllUsers>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllUsers<TData = Awaited<ReturnType<typeof getAllUsers>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllUsers<
+  TData = Awaited<ReturnType<typeof getAllUsers>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllUsersParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllUsers>>,
           TError,
           Awaited<ReturnType<typeof getAllUsers>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllUsers<TData = Awaited<ReturnType<typeof getAllUsers>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllUsers<
+  TData = Awaited<ReturnType<typeof getAllUsers>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllUsersParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetAllUsers<TData = Awaited<ReturnType<typeof getAllUsers>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetAllUsers<
+  TData = Awaited<ReturnType<typeof getAllUsers>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllUsersParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getAllUsers>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAllUsersQueryOptions(params, options);
 
-  const queryOptions = getGetAllUsersQueryOptions(params,options)
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
-
-
-
 
 export const updateUser = (
-    updateUserDto: BodyType<UpdateUserDto[]>,
- options?: SecondParameter<typeof apiClient>,) => {
-      
-      
-      return apiClient<UserDto[]>(
-      {url: `/api/v1/users`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
-      data: updateUserDto
+  updateUserDto: BodyType<UpdateUserDto[]>,
+  options?: SecondParameter<typeof apiClient>,
+) => {
+  return apiClient<UserDto[]>(
+    {
+      url: `/api/v1/users`,
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      data: updateUserDto,
     },
-      options);
-    }
-  
+    options,
+  );
+};
 
+export const getUpdateUserMutationOptions = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateUser>>,
+    TError,
+    { data: BodyType<UpdateUserDto[]> },
+    TContext
+  >;
+  request?: SecondParameter<typeof apiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateUser>>,
+  TError,
+  { data: BodyType<UpdateUserDto[]> },
+  TContext
+> => {
+  const mutationKey = ["updateUser"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getUpdateUserMutationOptions = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUser>>, TError,{data: BodyType<UpdateUserDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateUser>>, TError,{data: BodyType<UpdateUserDto[]>}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateUser>>,
+    { data: BodyType<UpdateUserDto[]> }
+  > = (props) => {
+    const { data } = props ?? {};
 
-const mutationKey = ['updateUser'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return updateUser(data, requestOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type UpdateUserMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateUser>>
+>;
+export type UpdateUserMutationBody = BodyType<UpdateUserDto[]>;
+export type UpdateUserMutationError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateUser>>, {data: BodyType<UpdateUserDto[]>}> = (props) => {
-          const {data} = props ?? {};
+export const useUpdateUser = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof updateUser>>,
+      TError,
+      { data: BodyType<UpdateUserDto[]> },
+      TContext
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof updateUser>>,
+  TError,
+  { data: BodyType<UpdateUserDto[]> },
+  TContext
+> => {
+  const mutationOptions = getUpdateUserMutationOptions(options);
 
-          return  updateUser(data,requestOptions)
-        }
+  return useMutation(mutationOptions, queryClient);
+};
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type UpdateUserMutationResult = NonNullable<Awaited<ReturnType<typeof updateUser>>>
-    export type UpdateUserMutationBody = BodyType<UpdateUserDto[]>
-    export type UpdateUserMutationError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-    export const useUpdateUser = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateUser>>, TError,{data: BodyType<UpdateUserDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof updateUser>>,
-        TError,
-        {data: BodyType<UpdateUserDto[]>},
-        TContext
-      > => {
-
-      const mutationOptions = getUpdateUserMutationOptions(options);
-
-      return useMutation(mutationOptions , queryClient);
-    }
-    
 export const addUser = (
-    addUserDto: BodyType<AddUserDto[]>,
- options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+  addUserDto: BodyType<AddUserDto[]>,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return apiClient<UserDto[]>(
-      {url: `/api/v1/users`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: addUserDto, signal
+  return apiClient<UserDto[]>(
+    {
+      url: `/api/v1/users`,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      data: addUserDto,
+      signal,
     },
-      options);
-    }
-  
+    options,
+  );
+};
 
+export const getAddUserMutationOptions = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof addUser>>,
+    TError,
+    { data: BodyType<AddUserDto[]> },
+    TContext
+  >;
+  request?: SecondParameter<typeof apiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof addUser>>,
+  TError,
+  { data: BodyType<AddUserDto[]> },
+  TContext
+> => {
+  const mutationKey = ["addUser"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getAddUserMutationOptions = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addUser>>, TError,{data: BodyType<AddUserDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
-): UseMutationOptions<Awaited<ReturnType<typeof addUser>>, TError,{data: BodyType<AddUserDto[]>}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof addUser>>,
+    { data: BodyType<AddUserDto[]> }
+  > = (props) => {
+    const { data } = props ?? {};
 
-const mutationKey = ['addUser'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return addUser(data, requestOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type AddUserMutationResult = NonNullable<
+  Awaited<ReturnType<typeof addUser>>
+>;
+export type AddUserMutationBody = BodyType<AddUserDto[]>;
+export type AddUserMutationError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof addUser>>, {data: BodyType<AddUserDto[]>}> = (props) => {
-          const {data} = props ?? {};
+export const useAddUser = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof addUser>>,
+      TError,
+      { data: BodyType<AddUserDto[]> },
+      TContext
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof addUser>>,
+  TError,
+  { data: BodyType<AddUserDto[]> },
+  TContext
+> => {
+  const mutationOptions = getAddUserMutationOptions(options);
 
-          return  addUser(data,requestOptions)
-        }
+  return useMutation(mutationOptions, queryClient);
+};
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type AddUserMutationResult = NonNullable<Awaited<ReturnType<typeof addUser>>>
-    export type AddUserMutationBody = BodyType<AddUserDto[]>
-    export type AddUserMutationError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-    export const useAddUser = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addUser>>, TError,{data: BodyType<AddUserDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof addUser>>,
-        TError,
-        {data: BodyType<AddUserDto[]>},
-        TContext
-      > => {
-
-      const mutationOptions = getAddUserMutationOptions(options);
-
-      return useMutation(mutationOptions , queryClient);
-    }
-    
 export const deleteUsers = (
-    params: DeleteUsersParams,
- options?: SecondParameter<typeof apiClient>,) => {
-      
-      
-      return apiClient<number>(
-      {url: `/api/v1/users`, method: 'DELETE',
-        params
-    },
-      options);
-    }
-  
+  params: DeleteUsersParams,
+  options?: SecondParameter<typeof apiClient>,
+) => {
+  return apiClient<number>(
+    { url: `/api/v1/users`, method: "DELETE", params },
+    options,
+  );
+};
 
+export const getDeleteUsersMutationOptions = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteUsers>>,
+    TError,
+    { params: DeleteUsersParams },
+    TContext
+  >;
+  request?: SecondParameter<typeof apiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteUsers>>,
+  TError,
+  { params: DeleteUsersParams },
+  TContext
+> => {
+  const mutationKey = ["deleteUsers"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getDeleteUsersMutationOptions = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUsers>>, TError,{params: DeleteUsersParams}, TContext>, request?: SecondParameter<typeof apiClient>}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteUsers>>, TError,{params: DeleteUsersParams}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteUsers>>,
+    { params: DeleteUsersParams }
+  > = (props) => {
+    const { params } = props ?? {};
 
-const mutationKey = ['deleteUsers'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return deleteUsers(params, requestOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type DeleteUsersMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteUsers>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteUsers>>, {params: DeleteUsersParams}> = (props) => {
-          const {params} = props ?? {};
+export type DeleteUsersMutationError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-          return  deleteUsers(params,requestOptions)
-        }
+export const useDeleteUsers = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof deleteUsers>>,
+      TError,
+      { params: DeleteUsersParams },
+      TContext
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof deleteUsers>>,
+  TError,
+  { params: DeleteUsersParams },
+  TContext
+> => {
+  const mutationOptions = getDeleteUsersMutationOptions(options);
 
-        
+  return useMutation(mutationOptions, queryClient);
+};
 
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeleteUsersMutationResult = NonNullable<Awaited<ReturnType<typeof deleteUsers>>>
-    
-    export type DeleteUsersMutationError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-    export const useDeleteUsers = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUsers>>, TError,{params: DeleteUsersParams}, TContext>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteUsers>>,
-        TError,
-        {params: DeleteUsersParams},
-        TContext
-      > => {
-
-      const mutationOptions = getDeleteUsersMutationOptions(options);
-
-      return useMutation(mutationOptions , queryClient);
-    }
-    
 export const patchUser = (
-    updateUserDto: BodyType<UpdateUserDto[]>,
- options?: SecondParameter<typeof apiClient>,) => {
-      
-      
-      return apiClient<UserDto[]>(
-      {url: `/api/v1/users`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: updateUserDto
+  updateUserDto: BodyType<UpdateUserDto[]>,
+  options?: SecondParameter<typeof apiClient>,
+) => {
+  return apiClient<UserDto[]>(
+    {
+      url: `/api/v1/users`,
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      data: updateUserDto,
     },
-      options);
-    }
-  
+    options,
+  );
+};
 
+export const getPatchUserMutationOptions = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof patchUser>>,
+    TError,
+    { data: BodyType<UpdateUserDto[]> },
+    TContext
+  >;
+  request?: SecondParameter<typeof apiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof patchUser>>,
+  TError,
+  { data: BodyType<UpdateUserDto[]> },
+  TContext
+> => {
+  const mutationKey = ["patchUser"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getPatchUserMutationOptions = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchUser>>, TError,{data: BodyType<UpdateUserDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
-): UseMutationOptions<Awaited<ReturnType<typeof patchUser>>, TError,{data: BodyType<UpdateUserDto[]>}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof patchUser>>,
+    { data: BodyType<UpdateUserDto[]> }
+  > = (props) => {
+    const { data } = props ?? {};
 
-const mutationKey = ['patchUser'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return patchUser(data, requestOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type PatchUserMutationResult = NonNullable<
+  Awaited<ReturnType<typeof patchUser>>
+>;
+export type PatchUserMutationBody = BodyType<UpdateUserDto[]>;
+export type PatchUserMutationError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof patchUser>>, {data: BodyType<UpdateUserDto[]>}> = (props) => {
-          const {data} = props ?? {};
+export const usePatchUser = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof patchUser>>,
+      TError,
+      { data: BodyType<UpdateUserDto[]> },
+      TContext
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof patchUser>>,
+  TError,
+  { data: BodyType<UpdateUserDto[]> },
+  TContext
+> => {
+  const mutationOptions = getPatchUserMutationOptions(options);
 
-          return  patchUser(data,requestOptions)
-        }
+  return useMutation(mutationOptions, queryClient);
+};
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PatchUserMutationResult = NonNullable<Awaited<ReturnType<typeof patchUser>>>
-    export type PatchUserMutationBody = BodyType<UpdateUserDto[]>
-    export type PatchUserMutationError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-    export const usePatchUser = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchUser>>, TError,{data: BodyType<UpdateUserDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof patchUser>>,
-        TError,
-        {data: BodyType<UpdateUserDto[]>},
-        TContext
-      > => {
-
-      const mutationOptions = getPatchUserMutationOptions(options);
-
-      return useMutation(mutationOptions , queryClient);
-    }
-    
 export const getAllUserRoles = (
-    params?: GetAllUserRolesParams,
- options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+  params?: GetAllUserRolesParams,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return apiClient<PageDtoUserRoleDto>(
-      {url: `/api/v1/users/roles`, method: 'GET',
-        params, signal
-    },
-      options);
-    }
-  
+  return apiClient<PageDtoUserRoleDto>(
+    { url: `/api/v1/users/roles`, method: "GET", params, signal },
+    options,
+  );
+};
 
-export const getGetAllUserRolesQueryKey = (params?: GetAllUserRolesParams,) => {
-    return [`/api/v1/users/roles`, ...(params ? [params]: [])] as const;
-    }
+export const getGetAllUserRolesQueryKey = (params?: GetAllUserRolesParams) => {
+  return [`/api/v1/users/roles`, ...(params ? [params] : [])] as const;
+};
 
-    
-export const getGetAllUserRolesInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getAllUserRoles>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(params?: GetAllUserRolesParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAllUserRoles>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetAllUserRolesInfiniteQueryOptions = <
+  TData = InfiniteData<Awaited<ReturnType<typeof getAllUserRoles>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllUserRolesParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getAllUserRoles>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetAllUserRolesQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAllUserRolesQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllUserRoles>>> = ({
+    signal,
+  }) => getAllUserRoles(params, requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof getAllUserRoles>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllUserRoles>>> = ({ signal }) => getAllUserRoles(params, requestOptions, signal);
+export type GetAllUserRolesInfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAllUserRoles>>
+>;
+export type GetAllUserRolesInfiniteQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAllUserRoles>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAllUserRolesInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getAllUserRoles>>>
-export type GetAllUserRolesInfiniteQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetAllUserRolesInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getAllUserRoles>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: undefined |  GetAllUserRolesParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAllUserRoles>>, TError, TData>> & Pick<
+export function useGetAllUserRolesInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getAllUserRoles>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: undefined | GetAllUserRolesParams,
+  options: {
+    query: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getAllUserRoles>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllUserRoles>>,
           TError,
           Awaited<ReturnType<typeof getAllUserRoles>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllUserRolesInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getAllUserRoles>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllUserRolesParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAllUserRoles>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllUserRolesInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getAllUserRoles>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllUserRolesParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getAllUserRoles>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllUserRoles>>,
           TError,
           Awaited<ReturnType<typeof getAllUserRoles>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllUserRolesInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getAllUserRoles>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllUserRolesParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAllUserRoles>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllUserRolesInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getAllUserRoles>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllUserRolesParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getAllUserRoles>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetAllUserRolesInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getAllUserRoles>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllUserRolesParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getAllUserRoles>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetAllUserRolesInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getAllUserRoles>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllUserRolesParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getAllUserRoles>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAllUserRolesInfiniteQueryOptions(params, options);
 
-  const queryOptions = getGetAllUserRolesInfiniteQueryOptions(params,options)
+  const query = useInfiniteQuery(
+    queryOptions,
+    queryClient,
+  ) as UseInfiniteQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
-  const query = useInfiniteQuery(queryOptions , queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
 
-
-
-export const getGetAllUserRolesQueryOptions = <TData = Awaited<ReturnType<typeof getAllUserRoles>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(params?: GetAllUserRolesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUserRoles>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetAllUserRolesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAllUserRoles>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllUserRolesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllUserRoles>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetAllUserRolesQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAllUserRolesQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllUserRoles>>> = ({
+    signal,
+  }) => getAllUserRoles(params, requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getAllUserRoles>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllUserRoles>>> = ({ signal }) => getAllUserRoles(params, requestOptions, signal);
+export type GetAllUserRolesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAllUserRoles>>
+>;
+export type GetAllUserRolesQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllUserRoles>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAllUserRolesQueryResult = NonNullable<Awaited<ReturnType<typeof getAllUserRoles>>>
-export type GetAllUserRolesQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetAllUserRoles<TData = Awaited<ReturnType<typeof getAllUserRoles>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: undefined |  GetAllUserRolesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUserRoles>>, TError, TData>> & Pick<
+export function useGetAllUserRoles<
+  TData = Awaited<ReturnType<typeof getAllUserRoles>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: undefined | GetAllUserRolesParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllUserRoles>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllUserRoles>>,
           TError,
           Awaited<ReturnType<typeof getAllUserRoles>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllUserRoles<TData = Awaited<ReturnType<typeof getAllUserRoles>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllUserRolesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUserRoles>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllUserRoles<
+  TData = Awaited<ReturnType<typeof getAllUserRoles>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllUserRolesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllUserRoles>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllUserRoles>>,
           TError,
           Awaited<ReturnType<typeof getAllUserRoles>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAllUserRoles<TData = Awaited<ReturnType<typeof getAllUserRoles>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllUserRolesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUserRoles>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetAllUserRoles<
+  TData = Awaited<ReturnType<typeof getAllUserRoles>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllUserRolesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllUserRoles>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetAllUserRoles<TData = Awaited<ReturnType<typeof getAllUserRoles>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetAllUserRolesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllUserRoles>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetAllUserRoles<
+  TData = Awaited<ReturnType<typeof getAllUserRoles>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetAllUserRolesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAllUserRoles>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetAllUserRolesQueryOptions(params, options);
 
-  const queryOptions = getGetAllUserRolesQueryOptions(params,options)
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
-
-
-
 
 export const putUserRole = (
-    updateUserRoleDto: BodyType<UpdateUserRoleDto[]>,
- options?: SecondParameter<typeof apiClient>,) => {
-      
-      
-      return apiClient<UserRoleDto[]>(
-      {url: `/api/v1/users/roles`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
-      data: updateUserRoleDto
+  updateUserRoleDto: BodyType<UpdateUserRoleDto[]>,
+  options?: SecondParameter<typeof apiClient>,
+) => {
+  return apiClient<UserRoleDto[]>(
+    {
+      url: `/api/v1/users/roles`,
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      data: updateUserRoleDto,
     },
-      options);
-    }
-  
+    options,
+  );
+};
 
+export const getPutUserRoleMutationOptions = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof putUserRole>>,
+    TError,
+    { data: BodyType<UpdateUserRoleDto[]> },
+    TContext
+  >;
+  request?: SecondParameter<typeof apiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof putUserRole>>,
+  TError,
+  { data: BodyType<UpdateUserRoleDto[]> },
+  TContext
+> => {
+  const mutationKey = ["putUserRole"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getPutUserRoleMutationOptions = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putUserRole>>, TError,{data: BodyType<UpdateUserRoleDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
-): UseMutationOptions<Awaited<ReturnType<typeof putUserRole>>, TError,{data: BodyType<UpdateUserRoleDto[]>}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof putUserRole>>,
+    { data: BodyType<UpdateUserRoleDto[]> }
+  > = (props) => {
+    const { data } = props ?? {};
 
-const mutationKey = ['putUserRole'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return putUserRole(data, requestOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type PutUserRoleMutationResult = NonNullable<
+  Awaited<ReturnType<typeof putUserRole>>
+>;
+export type PutUserRoleMutationBody = BodyType<UpdateUserRoleDto[]>;
+export type PutUserRoleMutationError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putUserRole>>, {data: BodyType<UpdateUserRoleDto[]>}> = (props) => {
-          const {data} = props ?? {};
+export const usePutUserRole = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof putUserRole>>,
+      TError,
+      { data: BodyType<UpdateUserRoleDto[]> },
+      TContext
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof putUserRole>>,
+  TError,
+  { data: BodyType<UpdateUserRoleDto[]> },
+  TContext
+> => {
+  const mutationOptions = getPutUserRoleMutationOptions(options);
 
-          return  putUserRole(data,requestOptions)
-        }
+  return useMutation(mutationOptions, queryClient);
+};
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PutUserRoleMutationResult = NonNullable<Awaited<ReturnType<typeof putUserRole>>>
-    export type PutUserRoleMutationBody = BodyType<UpdateUserRoleDto[]>
-    export type PutUserRoleMutationError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-    export const usePutUserRole = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putUserRole>>, TError,{data: BodyType<UpdateUserRoleDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof putUserRole>>,
-        TError,
-        {data: BodyType<UpdateUserRoleDto[]>},
-        TContext
-      > => {
-
-      const mutationOptions = getPutUserRoleMutationOptions(options);
-
-      return useMutation(mutationOptions , queryClient);
-    }
-    
 export const postUserRole = (
-    addUserRoleDto: BodyType<AddUserRoleDto[]>,
- options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+  addUserRoleDto: BodyType<AddUserRoleDto[]>,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return apiClient<UserRoleDto[]>(
-      {url: `/api/v1/users/roles`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: addUserRoleDto, signal
+  return apiClient<UserRoleDto[]>(
+    {
+      url: `/api/v1/users/roles`,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      data: addUserRoleDto,
+      signal,
     },
-      options);
-    }
-  
+    options,
+  );
+};
 
+export const getPostUserRoleMutationOptions = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postUserRole>>,
+    TError,
+    { data: BodyType<AddUserRoleDto[]> },
+    TContext
+  >;
+  request?: SecondParameter<typeof apiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof postUserRole>>,
+  TError,
+  { data: BodyType<AddUserRoleDto[]> },
+  TContext
+> => {
+  const mutationKey = ["postUserRole"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getPostUserRoleMutationOptions = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postUserRole>>, TError,{data: BodyType<AddUserRoleDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
-): UseMutationOptions<Awaited<ReturnType<typeof postUserRole>>, TError,{data: BodyType<AddUserRoleDto[]>}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof postUserRole>>,
+    { data: BodyType<AddUserRoleDto[]> }
+  > = (props) => {
+    const { data } = props ?? {};
 
-const mutationKey = ['postUserRole'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return postUserRole(data, requestOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type PostUserRoleMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postUserRole>>
+>;
+export type PostUserRoleMutationBody = BodyType<AddUserRoleDto[]>;
+export type PostUserRoleMutationError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postUserRole>>, {data: BodyType<AddUserRoleDto[]>}> = (props) => {
-          const {data} = props ?? {};
+export const usePostUserRole = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof postUserRole>>,
+      TError,
+      { data: BodyType<AddUserRoleDto[]> },
+      TContext
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof postUserRole>>,
+  TError,
+  { data: BodyType<AddUserRoleDto[]> },
+  TContext
+> => {
+  const mutationOptions = getPostUserRoleMutationOptions(options);
 
-          return  postUserRole(data,requestOptions)
-        }
+  return useMutation(mutationOptions, queryClient);
+};
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PostUserRoleMutationResult = NonNullable<Awaited<ReturnType<typeof postUserRole>>>
-    export type PostUserRoleMutationBody = BodyType<AddUserRoleDto[]>
-    export type PostUserRoleMutationError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-    export const usePostUserRole = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postUserRole>>, TError,{data: BodyType<AddUserRoleDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof postUserRole>>,
-        TError,
-        {data: BodyType<AddUserRoleDto[]>},
-        TContext
-      > => {
-
-      const mutationOptions = getPostUserRoleMutationOptions(options);
-
-      return useMutation(mutationOptions , queryClient);
-    }
-    
 export const deleteUserRoles = (
-    params: DeleteUserRolesParams,
- options?: SecondParameter<typeof apiClient>,) => {
-      
-      
-      return apiClient<number>(
-      {url: `/api/v1/users/roles`, method: 'DELETE',
-        params
-    },
-      options);
-    }
-  
+  params: DeleteUserRolesParams,
+  options?: SecondParameter<typeof apiClient>,
+) => {
+  return apiClient<number>(
+    { url: `/api/v1/users/roles`, method: "DELETE", params },
+    options,
+  );
+};
 
+export const getDeleteUserRolesMutationOptions = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteUserRoles>>,
+    TError,
+    { params: DeleteUserRolesParams },
+    TContext
+  >;
+  request?: SecondParameter<typeof apiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteUserRoles>>,
+  TError,
+  { params: DeleteUserRolesParams },
+  TContext
+> => {
+  const mutationKey = ["deleteUserRoles"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getDeleteUserRolesMutationOptions = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUserRoles>>, TError,{params: DeleteUserRolesParams}, TContext>, request?: SecondParameter<typeof apiClient>}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteUserRoles>>, TError,{params: DeleteUserRolesParams}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteUserRoles>>,
+    { params: DeleteUserRolesParams }
+  > = (props) => {
+    const { params } = props ?? {};
 
-const mutationKey = ['deleteUserRoles'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return deleteUserRoles(params, requestOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type DeleteUserRolesMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteUserRoles>>
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteUserRoles>>, {params: DeleteUserRolesParams}> = (props) => {
-          const {params} = props ?? {};
+export type DeleteUserRolesMutationError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-          return  deleteUserRoles(params,requestOptions)
-        }
+export const useDeleteUserRoles = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof deleteUserRoles>>,
+      TError,
+      { params: DeleteUserRolesParams },
+      TContext
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof deleteUserRoles>>,
+  TError,
+  { params: DeleteUserRolesParams },
+  TContext
+> => {
+  const mutationOptions = getDeleteUserRolesMutationOptions(options);
 
-        
+  return useMutation(mutationOptions, queryClient);
+};
 
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type DeleteUserRolesMutationResult = NonNullable<Awaited<ReturnType<typeof deleteUserRoles>>>
-    
-    export type DeleteUserRolesMutationError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-    export const useDeleteUserRoles = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteUserRoles>>, TError,{params: DeleteUserRolesParams}, TContext>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof deleteUserRoles>>,
-        TError,
-        {params: DeleteUserRolesParams},
-        TContext
-      > => {
-
-      const mutationOptions = getDeleteUserRolesMutationOptions(options);
-
-      return useMutation(mutationOptions , queryClient);
-    }
-    
 export const patchUserRole = (
-    updateUserRoleDto: BodyType<UpdateUserRoleDto[]>,
- options?: SecondParameter<typeof apiClient>,) => {
-      
-      
-      return apiClient<UserRoleDto[]>(
-      {url: `/api/v1/users/roles`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: updateUserRoleDto
+  updateUserRoleDto: BodyType<UpdateUserRoleDto[]>,
+  options?: SecondParameter<typeof apiClient>,
+) => {
+  return apiClient<UserRoleDto[]>(
+    {
+      url: `/api/v1/users/roles`,
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      data: updateUserRoleDto,
     },
-      options);
-    }
-  
+    options,
+  );
+};
 
+export const getPatchUserRoleMutationOptions = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof patchUserRole>>,
+    TError,
+    { data: BodyType<UpdateUserRoleDto[]> },
+    TContext
+  >;
+  request?: SecondParameter<typeof apiClient>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof patchUserRole>>,
+  TError,
+  { data: BodyType<UpdateUserRoleDto[]> },
+  TContext
+> => {
+  const mutationKey = ["patchUserRole"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
 
-export const getPatchUserRoleMutationOptions = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchUserRole>>, TError,{data: BodyType<UpdateUserRoleDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
-): UseMutationOptions<Awaited<ReturnType<typeof patchUserRole>>, TError,{data: BodyType<UpdateUserRoleDto[]>}, TContext> => {
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof patchUserRole>>,
+    { data: BodyType<UpdateUserRoleDto[]> }
+  > = (props) => {
+    const { data } = props ?? {};
 
-const mutationKey = ['patchUserRole'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
+    return patchUserRole(data, requestOptions);
+  };
 
-      
+  return { mutationFn, ...mutationOptions };
+};
 
+export type PatchUserRoleMutationResult = NonNullable<
+  Awaited<ReturnType<typeof patchUserRole>>
+>;
+export type PatchUserRoleMutationBody = BodyType<UpdateUserRoleDto[]>;
+export type PatchUserRoleMutationError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof patchUserRole>>, {data: BodyType<UpdateUserRoleDto[]>}> = (props) => {
-          const {data} = props ?? {};
+export const usePatchUserRole = <
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof patchUserRole>>,
+      TError,
+      { data: BodyType<UpdateUserRoleDto[]> },
+      TContext
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof patchUserRole>>,
+  TError,
+  { data: BodyType<UpdateUserRoleDto[]> },
+  TContext
+> => {
+  const mutationOptions = getPatchUserRoleMutationOptions(options);
 
-          return  patchUserRole(data,requestOptions)
-        }
+  return useMutation(mutationOptions, queryClient);
+};
 
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PatchUserRoleMutationResult = NonNullable<Awaited<ReturnType<typeof patchUserRole>>>
-    export type PatchUserRoleMutationBody = BodyType<UpdateUserRoleDto[]>
-    export type PatchUserRoleMutationError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-    export const usePatchUserRole = <TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchUserRole>>, TError,{data: BodyType<UpdateUserRoleDto[]>}, TContext>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof patchUserRole>>,
-        TError,
-        {data: BodyType<UpdateUserRoleDto[]>},
-        TContext
-      > => {
-
-      const mutationOptions = getPatchUserRoleMutationOptions(options);
-
-      return useMutation(mutationOptions , queryClient);
-    }
-    
 export const getTenant = (
-    id: string,
-    params?: GetTenantParams,
- options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+  id: string,
+  params?: GetTenantParams,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return apiClient<TenantDto>(
-      {url: `/operations/tenants/${id}`, method: 'GET',
-        params, signal
-    },
-      options);
-    }
-  
+  return apiClient<TenantDto>(
+    { url: `/operations/tenants/${id}`, method: "GET", params, signal },
+    options,
+  );
+};
 
-export const getGetTenantQueryKey = (id?: string,
-    params?: GetTenantParams,) => {
-    return [`/operations/tenants/${id}`, ...(params ? [params]: [])] as const;
-    }
+export const getGetTenantQueryKey = (id?: string, params?: GetTenantParams) => {
+  return [`/operations/tenants/${id}`, ...(params ? [params] : [])] as const;
+};
 
-    
-export const getGetTenantInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getTenant>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(id: string,
-    params?: GetTenantParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetTenantInfiniteQueryOptions = <
+  TData = InfiniteData<Awaited<ReturnType<typeof getTenant>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: string,
+  params?: GetTenantParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getTenant>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetTenantQueryKey(id, params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetTenantQueryKey(id,params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getTenant>>> = ({
+    signal,
+  }) => getTenant(id, params, requestOptions, signal);
 
-  
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof getTenant>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTenant>>> = ({ signal }) => getTenant(id,params, requestOptions, signal);
+export type GetTenantInfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getTenant>>
+>;
+export type GetTenantInfiniteQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetTenantInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getTenant>>>
-export type GetTenantInfiniteQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetTenantInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getTenant>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- id: string,
-    params: undefined |  GetTenantParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>> & Pick<
+export function useGetTenantInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getTenant>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: string,
+  params: undefined | GetTenantParams,
+  options: {
+    query: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getTenant>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getTenant>>,
           TError,
           Awaited<ReturnType<typeof getTenant>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetTenantInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getTenant>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- id: string,
-    params?: GetTenantParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetTenantInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getTenant>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: string,
+  params?: GetTenantParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getTenant>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getTenant>>,
           TError,
           Awaited<ReturnType<typeof getTenant>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetTenantInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getTenant>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- id: string,
-    params?: GetTenantParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetTenantInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getTenant>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: string,
+  params?: GetTenantParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getTenant>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetTenantInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getTenant>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- id: string,
-    params?: GetTenantParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetTenantInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getTenant>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: string,
+  params?: GetTenantParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getTenant>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetTenantInfiniteQueryOptions(id, params, options);
 
-  const queryOptions = getGetTenantInfiniteQueryOptions(id,params,options)
+  const query = useInfiniteQuery(
+    queryOptions,
+    queryClient,
+  ) as UseInfiniteQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
-  const query = useInfiniteQuery(queryOptions , queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
 
-
-
-export const getGetTenantQueryOptions = <TData = Awaited<ReturnType<typeof getTenant>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(id: string,
-    params?: GetTenantParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetTenantQueryOptions = <
+  TData = Awaited<ReturnType<typeof getTenant>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: string,
+  params?: GetTenantParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetTenantQueryKey(id, params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetTenantQueryKey(id,params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getTenant>>> = ({
+    signal,
+  }) => getTenant(id, params, requestOptions, signal);
 
-  
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTenant>>> = ({ signal }) => getTenant(id,params, requestOptions, signal);
+export type GetTenantQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getTenant>>
+>;
+export type GetTenantQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetTenantQueryResult = NonNullable<Awaited<ReturnType<typeof getTenant>>>
-export type GetTenantQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetTenant<TData = Awaited<ReturnType<typeof getTenant>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- id: string,
-    params: undefined |  GetTenantParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>> & Pick<
+export function useGetTenant<
+  TData = Awaited<ReturnType<typeof getTenant>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: string,
+  params: undefined | GetTenantParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getTenant>>,
           TError,
           Awaited<ReturnType<typeof getTenant>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetTenant<TData = Awaited<ReturnType<typeof getTenant>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- id: string,
-    params?: GetTenantParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetTenant<
+  TData = Awaited<ReturnType<typeof getTenant>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: string,
+  params?: GetTenantParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getTenant>>,
           TError,
           Awaited<ReturnType<typeof getTenant>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetTenant<TData = Awaited<ReturnType<typeof getTenant>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- id: string,
-    params?: GetTenantParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetTenant<
+  TData = Awaited<ReturnType<typeof getTenant>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: string,
+  params?: GetTenantParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetTenant<TData = Awaited<ReturnType<typeof getTenant>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- id: string,
-    params?: GetTenantParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetTenant<
+  TData = Awaited<ReturnType<typeof getTenant>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: string,
+  params?: GetTenantParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getTenant>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetTenantQueryOptions(id, params, options);
 
-  const queryOptions = getGetTenantQueryOptions(id,params,options)
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
-
-
-
 
 export const getIaasObjectStoreFile = (
-    fileId: string,
-    params?: GetIaasObjectStoreFileParams,
- options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+  fileId: string,
+  params?: GetIaasObjectStoreFileParams,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return apiClient<IaasObjectStoreFileDto>(
-      {url: `/api/v1/vfs/files/${fileId}`, method: 'GET',
-        params, signal
-    },
-      options);
-    }
-  
+  return apiClient<IaasObjectStoreFileDto>(
+    { url: `/api/v1/vfs/files/${fileId}`, method: "GET", params, signal },
+    options,
+  );
+};
 
-export const getGetIaasObjectStoreFileQueryKey = (fileId?: string,
-    params?: GetIaasObjectStoreFileParams,) => {
-    return [`/api/v1/vfs/files/${fileId}`, ...(params ? [params]: [])] as const;
-    }
-
-    
-export const getGetIaasObjectStoreFileInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getIaasObjectStoreFile>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(fileId: string,
-    params?: GetIaasObjectStoreFileParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetIaasObjectStoreFileQueryKey = (
+  fileId?: string,
+  params?: GetIaasObjectStoreFileParams,
 ) => {
+  return [`/api/v1/vfs/files/${fileId}`, ...(params ? [params] : [])] as const;
+};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+export const getGetIaasObjectStoreFileInfiniteQueryOptions = <
+  TData = InfiniteData<Awaited<ReturnType<typeof getIaasObjectStoreFile>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  fileId: string,
+  params?: GetIaasObjectStoreFileParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetIaasObjectStoreFileQueryKey(fileId,params);
+  const queryKey =
+    queryOptions?.queryKey ?? getGetIaasObjectStoreFileQueryKey(fileId, params);
 
-  
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getIaasObjectStoreFile>>
+  > = ({ signal }) =>
+    getIaasObjectStoreFile(fileId, params, requestOptions, signal);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getIaasObjectStoreFile>>> = ({ signal }) => getIaasObjectStoreFile(fileId,params, requestOptions, signal);
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!fileId,
+    ...queryOptions,
+  } as UseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-      
+export type GetIaasObjectStoreFileInfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getIaasObjectStoreFile>>
+>;
+export type GetIaasObjectStoreFileInfiniteQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-   return  { queryKey, queryFn, enabled: !!(fileId), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetIaasObjectStoreFileInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getIaasObjectStoreFile>>>
-export type GetIaasObjectStoreFileInfiniteQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetIaasObjectStoreFileInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getIaasObjectStoreFile>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- fileId: string,
-    params: undefined |  GetIaasObjectStoreFileParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError, TData>> & Pick<
+export function useGetIaasObjectStoreFileInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getIaasObjectStoreFile>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  fileId: string,
+  params: undefined | GetIaasObjectStoreFileParams,
+  options: {
+    query: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
           TError,
           Awaited<ReturnType<typeof getIaasObjectStoreFile>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetIaasObjectStoreFileInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getIaasObjectStoreFile>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- fileId: string,
-    params?: GetIaasObjectStoreFileParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetIaasObjectStoreFileInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getIaasObjectStoreFile>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  fileId: string,
+  params?: GetIaasObjectStoreFileParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
           TError,
           Awaited<ReturnType<typeof getIaasObjectStoreFile>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetIaasObjectStoreFileInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getIaasObjectStoreFile>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- fileId: string,
-    params?: GetIaasObjectStoreFileParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetIaasObjectStoreFileInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getIaasObjectStoreFile>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  fileId: string,
+  params?: GetIaasObjectStoreFileParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetIaasObjectStoreFileInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getIaasObjectStoreFile>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- fileId: string,
-    params?: GetIaasObjectStoreFileParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetIaasObjectStoreFileInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getIaasObjectStoreFile>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  fileId: string,
+  params?: GetIaasObjectStoreFileParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetIaasObjectStoreFileInfiniteQueryOptions(
+    fileId,
+    params,
+    options,
+  );
 
-  const queryOptions = getGetIaasObjectStoreFileInfiniteQueryOptions(fileId,params,options)
+  const query = useInfiniteQuery(
+    queryOptions,
+    queryClient,
+  ) as UseInfiniteQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
-  const query = useInfiniteQuery(queryOptions , queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
 
-
-
-export const getGetIaasObjectStoreFileQueryOptions = <TData = Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(fileId: string,
-    params?: GetIaasObjectStoreFileParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetIaasObjectStoreFileQueryOptions = <
+  TData = Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  fileId: string,
+  params?: GetIaasObjectStoreFileParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ?? getGetIaasObjectStoreFileQueryKey(fileId, params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetIaasObjectStoreFileQueryKey(fileId,params);
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getIaasObjectStoreFile>>
+  > = ({ signal }) =>
+    getIaasObjectStoreFile(fileId, params, requestOptions, signal);
 
-  
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!fileId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getIaasObjectStoreFile>>> = ({ signal }) => getIaasObjectStoreFile(fileId,params, requestOptions, signal);
+export type GetIaasObjectStoreFileQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getIaasObjectStoreFile>>
+>;
+export type GetIaasObjectStoreFileQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(fileId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetIaasObjectStoreFileQueryResult = NonNullable<Awaited<ReturnType<typeof getIaasObjectStoreFile>>>
-export type GetIaasObjectStoreFileQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetIaasObjectStoreFile<TData = Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- fileId: string,
-    params: undefined |  GetIaasObjectStoreFileParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError, TData>> & Pick<
+export function useGetIaasObjectStoreFile<
+  TData = Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  fileId: string,
+  params: undefined | GetIaasObjectStoreFileParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
           TError,
           Awaited<ReturnType<typeof getIaasObjectStoreFile>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetIaasObjectStoreFile<TData = Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- fileId: string,
-    params?: GetIaasObjectStoreFileParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetIaasObjectStoreFile<
+  TData = Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  fileId: string,
+  params?: GetIaasObjectStoreFileParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
           TError,
           Awaited<ReturnType<typeof getIaasObjectStoreFile>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetIaasObjectStoreFile<TData = Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- fileId: string,
-    params?: GetIaasObjectStoreFileParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetIaasObjectStoreFile<
+  TData = Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  fileId: string,
+  params?: GetIaasObjectStoreFileParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetIaasObjectStoreFile<TData = Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- fileId: string,
-    params?: GetIaasObjectStoreFileParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getIaasObjectStoreFile>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetIaasObjectStoreFile<
+  TData = Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  fileId: string,
+  params?: GetIaasObjectStoreFileParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getIaasObjectStoreFile>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetIaasObjectStoreFileQueryOptions(
+    fileId,
+    params,
+    options,
+  );
 
-  const queryOptions = getGetIaasObjectStoreFileQueryOptions(fileId,params,options)
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
-
-
-
 
 export const getUser = (
-    userId: number,
-    params?: GetUserParams,
- options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+  userId: number,
+  params?: GetUserParams,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return apiClient<UserDto>(
-      {url: `/api/v1/users/${userId}`, method: 'GET',
-        params, signal
-    },
-      options);
-    }
-  
+  return apiClient<UserDto>(
+    { url: `/api/v1/users/${userId}`, method: "GET", params, signal },
+    options,
+  );
+};
 
-export const getGetUserQueryKey = (userId?: number,
-    params?: GetUserParams,) => {
-    return [`/api/v1/users/${userId}`, ...(params ? [params]: [])] as const;
-    }
+export const getGetUserQueryKey = (userId?: number, params?: GetUserParams) => {
+  return [`/api/v1/users/${userId}`, ...(params ? [params] : [])] as const;
+};
 
-    
-export const getGetUserInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getUser>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(userId: number,
-    params?: GetUserParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetUserInfiniteQueryOptions = <
+  TData = InfiniteData<Awaited<ReturnType<typeof getUser>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  userId: number,
+  params?: GetUserParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getUser>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetUserQueryKey(userId, params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetUserQueryKey(userId,params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getUser>>> = ({
+    signal,
+  }) => getUser(userId, params, requestOptions, signal);
 
-  
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!userId,
+    ...queryOptions,
+  } as UseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof getUser>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUser>>> = ({ signal }) => getUser(userId,params, requestOptions, signal);
+export type GetUserInfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUser>>
+>;
+export type GetUserInfiniteQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(userId), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetUserInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getUser>>>
-export type GetUserInfiniteQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetUserInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUser>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- userId: number,
-    params: undefined |  GetUserParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>> & Pick<
+export function useGetUserInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getUser>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  userId: number,
+  params: undefined | GetUserParams,
+  options: {
+    query: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getUser>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUser>>,
           TError,
           Awaited<ReturnType<typeof getUser>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUserInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUser>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- userId: number,
-    params?: GetUserParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUserInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getUser>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  userId: number,
+  params?: GetUserParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getUser>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUser>>,
           TError,
           Awaited<ReturnType<typeof getUser>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUserInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUser>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- userId: number,
-    params?: GetUserParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUserInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getUser>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  userId: number,
+  params?: GetUserParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getUser>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetUserInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUser>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- userId: number,
-    params?: GetUserParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetUserInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getUser>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  userId: number,
+  params?: GetUserParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getUser>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetUserInfiniteQueryOptions(userId, params, options);
 
-  const queryOptions = getGetUserInfiniteQueryOptions(userId,params,options)
+  const query = useInfiniteQuery(
+    queryOptions,
+    queryClient,
+  ) as UseInfiniteQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
-  const query = useInfiniteQuery(queryOptions , queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
 
-
-
-export const getGetUserQueryOptions = <TData = Awaited<ReturnType<typeof getUser>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(userId: number,
-    params?: GetUserParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetUserQueryOptions = <
+  TData = Awaited<ReturnType<typeof getUser>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  userId: number,
+  params?: GetUserParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetUserQueryKey(userId, params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetUserQueryKey(userId,params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getUser>>> = ({
+    signal,
+  }) => getUser(userId, params, requestOptions, signal);
 
-  
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!userId,
+    ...queryOptions,
+  } as UseQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUser>>> = ({ signal }) => getUser(userId,params, requestOptions, signal);
+export type GetUserQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUser>>
+>;
+export type GetUserQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(userId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetUserQueryResult = NonNullable<Awaited<ReturnType<typeof getUser>>>
-export type GetUserQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetUser<TData = Awaited<ReturnType<typeof getUser>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- userId: number,
-    params: undefined |  GetUserParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>> & Pick<
+export function useGetUser<
+  TData = Awaited<ReturnType<typeof getUser>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  userId: number,
+  params: undefined | GetUserParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUser>>,
           TError,
           Awaited<ReturnType<typeof getUser>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUser<TData = Awaited<ReturnType<typeof getUser>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- userId: number,
-    params?: GetUserParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUser<
+  TData = Awaited<ReturnType<typeof getUser>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  userId: number,
+  params?: GetUserParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUser>>,
           TError,
           Awaited<ReturnType<typeof getUser>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUser<TData = Awaited<ReturnType<typeof getUser>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- userId: number,
-    params?: GetUserParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUser<
+  TData = Awaited<ReturnType<typeof getUser>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  userId: number,
+  params?: GetUserParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetUser<TData = Awaited<ReturnType<typeof getUser>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- userId: number,
-    params?: GetUserParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetUser<
+  TData = Awaited<ReturnType<typeof getUser>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  userId: number,
+  params?: GetUserParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUser>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetUserQueryOptions(userId, params, options);
 
-  const queryOptions = getGetUserQueryOptions(userId,params,options)
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
-
-
-
 
 export const getSalutations = (
-    params?: GetSalutationsParams,
- options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+  params?: GetSalutationsParams,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return apiClient<PageDtoUserSalutationDto>(
-      {url: `/api/v1/users/salutations`, method: 'GET',
-        params, signal
-    },
-      options);
-    }
-  
+  return apiClient<PageDtoUserSalutationDto>(
+    { url: `/api/v1/users/salutations`, method: "GET", params, signal },
+    options,
+  );
+};
 
-export const getGetSalutationsQueryKey = (params?: GetSalutationsParams,) => {
-    return [`/api/v1/users/salutations`, ...(params ? [params]: [])] as const;
-    }
+export const getGetSalutationsQueryKey = (params?: GetSalutationsParams) => {
+  return [`/api/v1/users/salutations`, ...(params ? [params] : [])] as const;
+};
 
-    
-export const getGetSalutationsInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getSalutations>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(params?: GetSalutationsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetSalutationsInfiniteQueryOptions = <
+  TData = InfiniteData<Awaited<ReturnType<typeof getSalutations>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetSalutationsParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getSalutations>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetSalutationsQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetSalutationsQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getSalutations>>> = ({
+    signal,
+  }) => getSalutations(params, requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof getSalutations>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSalutations>>> = ({ signal }) => getSalutations(params, requestOptions, signal);
+export type GetSalutationsInfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getSalutations>>
+>;
+export type GetSalutationsInfiniteQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetSalutationsInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getSalutations>>>
-export type GetSalutationsInfiniteQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetSalutationsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getSalutations>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: undefined |  GetSalutationsParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>> & Pick<
+export function useGetSalutationsInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getSalutations>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: undefined | GetSalutationsParams,
+  options: {
+    query: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getSalutations>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getSalutations>>,
           TError,
           Awaited<ReturnType<typeof getSalutations>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetSalutationsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getSalutations>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetSalutationsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetSalutationsInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getSalutations>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetSalutationsParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getSalutations>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getSalutations>>,
           TError,
           Awaited<ReturnType<typeof getSalutations>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetSalutationsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getSalutations>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetSalutationsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetSalutationsInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getSalutations>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetSalutationsParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getSalutations>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetSalutationsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getSalutations>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetSalutationsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetSalutationsInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getSalutations>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetSalutationsParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getSalutations>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetSalutationsInfiniteQueryOptions(params, options);
 
-  const queryOptions = getGetSalutationsInfiniteQueryOptions(params,options)
+  const query = useInfiniteQuery(
+    queryOptions,
+    queryClient,
+  ) as UseInfiniteQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
-  const query = useInfiniteQuery(queryOptions , queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
 
-
-
-export const getGetSalutationsQueryOptions = <TData = Awaited<ReturnType<typeof getSalutations>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(params?: GetSalutationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetSalutationsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getSalutations>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetSalutationsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetSalutationsQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetSalutationsQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getSalutations>>> = ({
+    signal,
+  }) => getSalutations(params, requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getSalutations>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSalutations>>> = ({ signal }) => getSalutations(params, requestOptions, signal);
+export type GetSalutationsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getSalutations>>
+>;
+export type GetSalutationsQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetSalutationsQueryResult = NonNullable<Awaited<ReturnType<typeof getSalutations>>>
-export type GetSalutationsQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetSalutations<TData = Awaited<ReturnType<typeof getSalutations>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: undefined |  GetSalutationsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>> & Pick<
+export function useGetSalutations<
+  TData = Awaited<ReturnType<typeof getSalutations>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: undefined | GetSalutationsParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getSalutations>>,
           TError,
           Awaited<ReturnType<typeof getSalutations>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetSalutations<TData = Awaited<ReturnType<typeof getSalutations>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetSalutationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetSalutations<
+  TData = Awaited<ReturnType<typeof getSalutations>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetSalutationsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getSalutations>>,
           TError,
           Awaited<ReturnType<typeof getSalutations>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetSalutations<TData = Awaited<ReturnType<typeof getSalutations>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetSalutationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetSalutations<
+  TData = Awaited<ReturnType<typeof getSalutations>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetSalutationsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetSalutations<TData = Awaited<ReturnType<typeof getSalutations>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetSalutationsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetSalutations<
+  TData = Awaited<ReturnType<typeof getSalutations>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetSalutationsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getSalutations>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetSalutationsQueryOptions(params, options);
 
-  const queryOptions = getGetSalutationsQueryOptions(params,options)
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
-
-
-
 
 export const getUserRole = (
-    id: number,
-    params?: GetUserRoleParams,
- options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+  id: number,
+  params?: GetUserRoleParams,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return apiClient<UserRoleDto>(
-      {url: `/api/v1/users/roles/${id}`, method: 'GET',
-        params, signal
-    },
-      options);
-    }
-  
+  return apiClient<UserRoleDto>(
+    { url: `/api/v1/users/roles/${id}`, method: "GET", params, signal },
+    options,
+  );
+};
 
-export const getGetUserRoleQueryKey = (id?: number,
-    params?: GetUserRoleParams,) => {
-    return [`/api/v1/users/roles/${id}`, ...(params ? [params]: [])] as const;
-    }
-
-    
-export const getGetUserRoleInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getUserRole>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(id: number,
-    params?: GetUserRoleParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetUserRoleQueryKey = (
+  id?: number,
+  params?: GetUserRoleParams,
 ) => {
+  return [`/api/v1/users/roles/${id}`, ...(params ? [params] : [])] as const;
+};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+export const getGetUserRoleInfiniteQueryOptions = <
+  TData = InfiniteData<Awaited<ReturnType<typeof getUserRole>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: number,
+  params?: GetUserRoleParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getUserRole>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetUserRoleQueryKey(id,params);
+  const queryKey = queryOptions?.queryKey ?? getGetUserRoleQueryKey(id, params);
 
-  
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserRole>>> = ({
+    signal,
+  }) => getUserRole(id, params, requestOptions, signal);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserRole>>> = ({ signal }) => getUserRole(id,params, requestOptions, signal);
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof getUserRole>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-      
+export type GetUserRoleInfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUserRole>>
+>;
+export type GetUserRoleInfiniteQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetUserRoleInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getUserRole>>>
-export type GetUserRoleInfiniteQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetUserRoleInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUserRole>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- id: number,
-    params: undefined |  GetUserRoleParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>> & Pick<
+export function useGetUserRoleInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getUserRole>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: number,
+  params: undefined | GetUserRoleParams,
+  options: {
+    query: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getUserRole>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserRole>>,
           TError,
           Awaited<ReturnType<typeof getUserRole>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUserRoleInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUserRole>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- id: number,
-    params?: GetUserRoleParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUserRoleInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getUserRole>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: number,
+  params?: GetUserRoleParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getUserRole>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserRole>>,
           TError,
           Awaited<ReturnType<typeof getUserRole>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUserRoleInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUserRole>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- id: number,
-    params?: GetUserRoleParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUserRoleInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getUserRole>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: number,
+  params?: GetUserRoleParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getUserRole>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetUserRoleInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUserRole>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- id: number,
-    params?: GetUserRoleParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetUserRoleInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getUserRole>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: number,
+  params?: GetUserRoleParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getUserRole>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetUserRoleInfiniteQueryOptions(id, params, options);
 
-  const queryOptions = getGetUserRoleInfiniteQueryOptions(id,params,options)
+  const query = useInfiniteQuery(
+    queryOptions,
+    queryClient,
+  ) as UseInfiniteQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
-  const query = useInfiniteQuery(queryOptions , queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
 
-
-
-export const getGetUserRoleQueryOptions = <TData = Awaited<ReturnType<typeof getUserRole>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(id: number,
-    params?: GetUserRoleParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetUserRoleQueryOptions = <
+  TData = Awaited<ReturnType<typeof getUserRole>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: number,
+  params?: GetUserRoleParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetUserRoleQueryKey(id, params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetUserRoleQueryKey(id,params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserRole>>> = ({
+    signal,
+  }) => getUserRole(id, params, requestOptions, signal);
 
-  
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getUserRole>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserRole>>> = ({ signal }) => getUserRole(id,params, requestOptions, signal);
+export type GetUserRoleQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUserRole>>
+>;
+export type GetUserRoleQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetUserRoleQueryResult = NonNullable<Awaited<ReturnType<typeof getUserRole>>>
-export type GetUserRoleQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetUserRole<TData = Awaited<ReturnType<typeof getUserRole>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- id: number,
-    params: undefined |  GetUserRoleParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>> & Pick<
+export function useGetUserRole<
+  TData = Awaited<ReturnType<typeof getUserRole>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: number,
+  params: undefined | GetUserRoleParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserRole>>,
           TError,
           Awaited<ReturnType<typeof getUserRole>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUserRole<TData = Awaited<ReturnType<typeof getUserRole>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- id: number,
-    params?: GetUserRoleParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUserRole<
+  TData = Awaited<ReturnType<typeof getUserRole>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: number,
+  params?: GetUserRoleParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUserRole>>,
           TError,
           Awaited<ReturnType<typeof getUserRole>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUserRole<TData = Awaited<ReturnType<typeof getUserRole>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- id: number,
-    params?: GetUserRoleParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUserRole<
+  TData = Awaited<ReturnType<typeof getUserRole>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: number,
+  params?: GetUserRoleParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetUserRole<TData = Awaited<ReturnType<typeof getUserRole>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- id: number,
-    params?: GetUserRoleParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetUserRole<
+  TData = Awaited<ReturnType<typeof getUserRole>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  id: number,
+  params?: GetUserRoleParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUserRole>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetUserRoleQueryOptions(id, params, options);
 
-  const queryOptions = getGetUserRoleQueryOptions(id,params,options)
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
-
-
-
 
 export const getUnits = (
-    params?: GetUnitsParams,
- options?: SecondParameter<typeof apiClient>,signal?: AbortSignal
+  params?: GetUnitsParams,
+  options?: SecondParameter<typeof apiClient>,
+  signal?: AbortSignal,
 ) => {
-      
-      
-      return apiClient<PageDtoUnitDto>(
-      {url: `/api/v1/quantity/units`, method: 'GET',
-        params, signal
-    },
-      options);
-    }
-  
+  return apiClient<PageDtoUnitDto>(
+    { url: `/api/v1/quantity/units`, method: "GET", params, signal },
+    options,
+  );
+};
 
-export const getGetUnitsQueryKey = (params?: GetUnitsParams,) => {
-    return [`/api/v1/quantity/units`, ...(params ? [params]: [])] as const;
-    }
+export const getGetUnitsQueryKey = (params?: GetUnitsParams) => {
+  return [`/api/v1/quantity/units`, ...(params ? [params] : [])] as const;
+};
 
-    
-export const getGetUnitsInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getUnits>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(params?: GetUnitsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetUnitsInfiniteQueryOptions = <
+  TData = InfiniteData<Awaited<ReturnType<typeof getUnits>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetUnitsParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getUnits>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetUnitsQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetUnitsQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getUnits>>> = ({
+    signal,
+  }) => getUnits(params, requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseInfiniteQueryOptions<
+    Awaited<ReturnType<typeof getUnits>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUnits>>> = ({ signal }) => getUnits(params, requestOptions, signal);
+export type GetUnitsInfiniteQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUnits>>
+>;
+export type GetUnitsInfiniteQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetUnitsInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getUnits>>>
-export type GetUnitsInfiniteQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetUnitsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUnits>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: undefined |  GetUnitsParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>> & Pick<
+export function useGetUnitsInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getUnits>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: undefined | GetUnitsParams,
+  options: {
+    query: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getUnits>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUnits>>,
           TError,
           Awaited<ReturnType<typeof getUnits>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUnitsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUnits>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetUnitsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUnitsInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getUnits>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetUnitsParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getUnits>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUnits>>,
           TError,
           Awaited<ReturnType<typeof getUnits>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUnitsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUnits>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetUnitsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUnitsInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getUnits>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetUnitsParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getUnits>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetUnitsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getUnits>>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetUnitsParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetUnitsInfinite<
+  TData = InfiniteData<Awaited<ReturnType<typeof getUnits>>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetUnitsParams,
+  options?: {
+    query?: Partial<
+      UseInfiniteQueryOptions<
+        Awaited<ReturnType<typeof getUnits>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseInfiniteQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetUnitsInfiniteQueryOptions(params, options);
 
-  const queryOptions = getGetUnitsInfiniteQueryOptions(params,options)
+  const query = useInfiniteQuery(
+    queryOptions,
+    queryClient,
+  ) as UseInfiniteQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
-  const query = useInfiniteQuery(queryOptions , queryClient) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
 
-
-
-export const getGetUnitsQueryOptions = <TData = Awaited<ReturnType<typeof getUnits>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(params?: GetUnitsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
+export const getGetUnitsQueryOptions = <
+  TData = Awaited<ReturnType<typeof getUnits>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetUnitsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
 ) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryKey = queryOptions?.queryKey ?? getGetUnitsQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetUnitsQueryKey(params);
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getUnits>>> = ({
+    signal,
+  }) => getUnits(params, requestOptions, signal);
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getUnits>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUnits>>> = ({ signal }) => getUnits(params, requestOptions, signal);
+export type GetUnitsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getUnits>>
+>;
+export type GetUnitsQueryError = ErrorType<
+  ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+>;
 
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetUnitsQueryResult = NonNullable<Awaited<ReturnType<typeof getUnits>>>
-export type GetUnitsQueryError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>
-
-
-export function useGetUnits<TData = Awaited<ReturnType<typeof getUnits>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params: undefined |  GetUnitsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>> & Pick<
+export function useGetUnits<
+  TData = Awaited<ReturnType<typeof getUnits>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params: undefined | GetUnitsParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUnits>>,
           TError,
           Awaited<ReturnType<typeof getUnits>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUnits<TData = Awaited<ReturnType<typeof getUnits>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetUnitsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>> & Pick<
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUnits<
+  TData = Awaited<ReturnType<typeof getUnits>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetUnitsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getUnits>>,
           TError,
           Awaited<ReturnType<typeof getUnits>>
-        > , 'initialData'
-      >, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetUnits<TData = Awaited<ReturnType<typeof getUnits>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetUnitsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+        >,
+        "initialData"
+      >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetUnits<
+  TData = Awaited<ReturnType<typeof getUnits>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetUnitsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 
-export function useGetUnits<TData = Awaited<ReturnType<typeof getUnits>>, TError = ErrorType<ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse>>(
- params?: GetUnitsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>>, request?: SecondParameter<typeof apiClient>}
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+export function useGetUnits<
+  TData = Awaited<ReturnType<typeof getUnits>>,
+  TError = ErrorType<
+    ErrorResponse | ErrorResponse | ErrorResponse | ErrorResponse
+  >,
+>(
+  params?: GetUnitsParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getUnits>>, TError, TData>
+    >;
+    request?: SecondParameter<typeof apiClient>;
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetUnitsQueryOptions(params, options);
 
-  const queryOptions = getGetUnitsQueryOptions(params,options)
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
-  const query = useQuery(queryOptions , queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
-
-
-
-

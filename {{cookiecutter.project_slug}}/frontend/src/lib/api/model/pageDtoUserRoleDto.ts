@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import type { UserRoleDto } from './userRoleDto';
+import type { UserRoleDto } from "./userRoleDto";
 
 export interface PageDtoUserRoleDto {
   content?: UserRoleDto[];

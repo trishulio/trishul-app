@@ -4,10 +4,10 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import type { IaasObjectStoreFileDto } from './iaasObjectStoreFileDto';
-import type { UserStatusDto } from './userStatusDto';
-import type { UserSalutationDto } from './userSalutationDto';
-import type { UserRoleDto } from './userRoleDto';
+import type { IaasObjectStoreFileDto } from "./iaasObjectStoreFileDto";
+import type { UserStatusDto } from "./userStatusDto";
+import type { UserSalutationDto } from "./userSalutationDto";
+import type { UserRoleDto } from "./userRoleDto";
 
 export interface UserDto {
   id?: number;

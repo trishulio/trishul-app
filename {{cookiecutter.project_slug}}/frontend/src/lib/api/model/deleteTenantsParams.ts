@@ -6,5 +6,5 @@
  */
 
 export type DeleteTenantsParams = {
-ids: string[];
+  ids: string[];
 };

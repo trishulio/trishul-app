@@ -6,5 +6,5 @@
  */
 
 export type GetAll1Params = {
-files: string[];
+  files: string[];
 };

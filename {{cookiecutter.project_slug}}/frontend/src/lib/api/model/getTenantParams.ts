@@ -6,5 +6,5 @@
  */
 
 export type GetTenantParams = {
-attr?: string[];
+  attr?: string[];
 };

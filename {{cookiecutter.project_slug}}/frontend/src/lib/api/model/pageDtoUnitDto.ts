@@ -4,7 +4,7 @@
  * OpenAPI definition
  * OpenAPI spec version: v0
  */
-import type { UnitDto } from './unitDto';
+import type { UnitDto } from "./unitDto";
 
 export interface PageDtoUnitDto {
   content?: UnitDto[];

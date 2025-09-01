@@ -6,5 +6,5 @@
  */
 
 export type GetUserParams = {
-attr?: string[];
+  attr?: string[];
 };

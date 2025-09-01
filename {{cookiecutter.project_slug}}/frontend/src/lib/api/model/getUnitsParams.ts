@@ -6,9 +6,9 @@
  */
 
 export type GetUnitsParams = {
-symbols?: string[];
-sort?: string[];
-order_asc?: boolean;
-page?: number;
-size?: number;
+  symbols?: string[];
+  sort?: string[];
+  order_asc?: boolean;
+  page?: number;
+  size?: number;
 };

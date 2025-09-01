@@ -6,5 +6,5 @@
  */
 
 export type DeleteIaasObjectStoreFilesParams = {
-fileIds: string[];
+  fileIds: string[];
 };

@@ -6,18 +6,18 @@
  */
 
 export type GetAllUsersParams = {
-ids?: number[];
-exclude_ids?: number[];
-user_names?: string[];
-display_names?: string[];
-emails?: string[];
-phone_numbers?: string[];
-status?: number[];
-salutations?: number[];
-roles?: string[];
-sort?: string[];
-order_asc?: boolean;
-page?: number;
-size?: number;
-attr?: string[];
+  ids?: number[];
+  exclude_ids?: number[];
+  user_names?: string[];
+  display_names?: string[];
+  emails?: string[];
+  phone_numbers?: string[];
+  status?: number[];
+  salutations?: number[];
+  roles?: string[];
+  sort?: string[];
+  order_asc?: boolean;
+  page?: number;
+  size?: number;
+  attr?: string[];
 };

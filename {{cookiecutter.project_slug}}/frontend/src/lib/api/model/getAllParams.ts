@@ -6,13 +6,13 @@
  */
 
 export type GetAllParams = {
-ids?: string[];
-names?: string[];
-urls?: string[];
-is_ready?: boolean;
-sort?: string[];
-order_asc?: boolean;
-page?: number;
-size?: number;
-attr?: string[];
+  ids?: string[];
+  names?: string[];
+  urls?: string[];
+  is_ready?: boolean;
+  sort?: string[];
+  order_asc?: boolean;
+  page?: number;
+  size?: number;
+  attr?: string[];
 };

@@ -1,15 +1,21 @@
-import Axios, { type AxiosRequestConfig, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios';
+import Axios, {
+  type AxiosRequestConfig,
+  type AxiosResponse,
+  type InternalAxiosRequestConfig,
+} from "axios";
 
 export const AXIOS_INSTANCE = Axios.create({
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
 // add a request interceptor
-AXIOS_INSTANCE.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  return config;
-});
+AXIOS_INSTANCE.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    return config;
+  },
+);
 
 // add a response interceptor
 AXIOS_INSTANCE.interceptors.response.use(
@@ -17,9 +23,9 @@ AXIOS_INSTANCE.interceptors.response.use(
     return response;
   },
   (error: unknown) => {
-    console.error('API Error:', error);
+    console.error("API Error:", error);
     return Promise.reject(error);
-  }
+  },
 );
 
 export const apiClient = <T>(
@@ -36,7 +42,7 @@ export const apiClient = <T>(
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   promise.cancel = () => {
-    source.cancel('Query was cancelled');
+    source.cancel("Query was cancelled");
   };
 
   return promise;

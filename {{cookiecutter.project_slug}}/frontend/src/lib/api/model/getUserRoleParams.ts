@@ -6,5 +6,5 @@
  */
 
 export type GetUserRoleParams = {
-attr?: string[];
+  attr?: string[];
 };
