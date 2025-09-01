@@ -1,20 +1,20 @@
-import { defineConfig } from 'orval';
+import { defineConfig } from "orval";
 
 export default defineConfig({
   {{cookiecutter.project_slug}}: {
     input: {
-      target: '../backend/api/openapi.json',
+      target: "../backend/api/openapi.json",
     },
     output: {
-      target: './src/lib/api/client.ts',
-      schemas: './src/lib/api/model',
-      mode: 'split',
-      client: 'react-query',
+      target: "./src/lib/api/client.ts",
+      schemas: "./src/lib/api/model",
+      mode: "split",
+      client: "react-query",
       prettier: true,
       override: {
         mutator: {
-          path: './src/lib/api/mutator.ts',
-          name: 'apiClient',
+          path: "./src/lib/api/mutator.ts",
+          name: "apiClient",
         },
         query: {
           useQuery: true,
